@@ -68,3 +68,34 @@
 - command: nasm -f elf32 -o hello.o hello.asm
 - and then link it into executable file using ld
 - command: ld -m elf_i386 -o hello hello.o
+- then run the program: ./hello 
+
+# Register sets and Data Types
+-	In a typical x86 cpu architecture, there are 8, 32-bit general-purpose register.
+which are: 
+		- EAX,EBX,ECX,EDX.
+		- EDI, ESI,
+		- ESP, EBP
+- Note that for x64 architecture, the register name that are 64-bit are called, RAX,RBX,RDX, 
+- the 32-bit general-purpose register in x86 architecture can future devided into 16-bit and 8-bit registers.
+	- the 32-bit data register (EAX-EDX) can be devided into 16-bit and 8-bit registers.
+		- a 16-bit EAX register is called, AX register
+		- a 8-bit EAX register is AH and AL.
+
+- the layout representation on how EAX get devided is as follows:
+```
+| 0000 0000 0000 0000 0000 0000 0000 | ---> EAX
+|								 0000	0000 0000	0000 | ---> AX
+|													 0000	0000 | ---> AL
+| 							 0000	0000					 | ---> AH
+
+```
+- so if we declare EAX to have a value of `0000 0000 0000 1111 1010 0000 1111 1100`
+- when we access the value of AX, AL and HL we will get these:
+```
+AX = 1010 0000 1111 1100
+AL = 1111 1100
+AH = 1010 0000
+
+```
+
