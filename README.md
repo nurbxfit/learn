@@ -1,1 +1,1 @@
-# Learning Notes 
+# Learning Computer Science Related Notes 
