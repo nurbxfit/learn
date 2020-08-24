@@ -1,1 +1,5 @@
+node_modules/
 javascript/*/node_modules/
+javascript/testmodules/node_modules/
+
+
