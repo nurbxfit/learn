@@ -1,4 +1,7 @@
-# Boot a Live ISO image suing grub.
+-------
+Author: Nurfitri
+-------
+# Boot a Live ISO image using grub.
 - having already installed arch based linux system on my pc.
 - without using live usb, we can also boot the `.ISO` file through grub.
 - we first need to download the iso file, and then configure our grub menu.

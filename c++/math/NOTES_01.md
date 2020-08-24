@@ -1,3 +1,9 @@
+
+______
+Author: Nurfitri
+
+_______
+
 # Introduction
 these tutorials is based on learning C++ through solving problems. 
 

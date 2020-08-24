@@ -1,4 +1,11 @@
- # Introduction
+-------
+Author: Nurfitri
+Title: x86 assembly 
+-------
+
+
+# Introduction
+
 - x86 is 32-bit little-endian architecture based on Intel 8086 processor.
 - it's operates on two modes: real and protected.
 - real modes support only 16-bits instruction set. 
