@@ -84,8 +84,8 @@ but with a little bit of tweak.
 4. Formatting our Partitions.
 	- we need to format our root parition to a ext4 filesystem `mkfs` command that stands for `make filesystem`.
 	- to do that we use the command : `mkfs.ext4 /dev/sda2` 
-	- note that `dev/sda1` is our swap, and `/dev/sda2` is our root
-	- side notes: can also format thumbdrive to a FAT32 using mkfs by using `mkfs.vfat -F 32 /dev/ourthumbdrive` or `mkfs -t vfat /dev/ourthumbdriveblock`
+		- note that `dev/sda1` is our swap, and `/dev/sda2` is our root
+		- side notes: can also format thumbdrive to a FAT32 using mkfs by using `mkfs.vfat -F 32 /dev/ourthumbdrive` or `mkfs -t vfat /dev/ourthumbdriveblock`
 	- next we create our swap partition using : `mkswap /dev/sda1` and `swapon /dev/sda1`
 	- next we mount our formatted root parition using: `mount` command.
 		- `mount /dev/sda1 /mnt`
