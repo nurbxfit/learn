@@ -88,5 +88,5 @@ but with a little bit of tweak.
 		- side notes: can also format thumbdrive to a FAT32 using mkfs by using `mkfs.vfat -F 32 /dev/ourthumbdrive` or `mkfs -t vfat /dev/ourthumbdriveblock`
 	- next we create our swap partition using : `mkswap /dev/sda1` and `swapon /dev/sda1`
 	- next we mount our formatted root parition using: `mount` command.
-		- `mount /dev/sda1 /mnt`
+		- `mount /dev/sda2 /mnt`
 
