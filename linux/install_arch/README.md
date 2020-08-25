@@ -2,7 +2,7 @@
 Author: Nurfitr
 -------
 
-# Download Arch Linux
+# Arch Linux
 1. Arch linux iso file can be donwload from the official website.
 2. I lived in Malaysia so I used the mirror that are closes to me, which is in singapore.
 3. After downloaded, you can check the file signature and create a bootable drive to install it.
