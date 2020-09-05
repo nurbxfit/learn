@@ -183,7 +183,7 @@ exec --no-startup-id volumeicon
 exec --no-startup-id compton -b
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/wallpapers/*
 exec --no-startup-id synology-drive -minimized
-exec --no-startup-id i3-msg 'workspace 3; exec discord'
+#exec --no-startup-id i3-msg 'workspace 3; exec discord'
 
 #Package Manager Authentication fix - install polkit-gnome gnome-keyring - NOT NEEDED FOR KDE
 #exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
@@ -194,9 +194,9 @@ assign [class="nautilus"] 2
 assign [class="^VirtualBox$"] 4
 
 # Custom Binds
-bindsym $mod+b exec vivaldi-stable
-bindsym $mod+e exec nautilus
-bindsym $mod+x exec terminator
+bindsym $mod+b exec google-chrome-stable
+bindsym $mod+e exec dolphin
+#bindsym $mod+x exec terminator
 
 #i3 tweaks
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
