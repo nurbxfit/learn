@@ -1,4 +1,4 @@
-# Pacman General Notes:
+# Arch General Notes:
 
 # 1. Pacman
 - install: `pacman -S package-name`
