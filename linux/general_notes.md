@@ -32,4 +32,9 @@
 - example in `rc.conf`: `map DD shell mv %s /home/$(USER)/.local/share/Trash/files/`.
 - view trash using: `:gio list trash://`.
 
-# 6. 
+# 6. General Partition mounting.
+- list block devices :  sudo lsblk -o name,fstype,mountpoint,label,partlabel,size,uuid
+- manual mount using: mount -t ntfs /dev/sdc3 /run/media/jun/Data
+- auto mount on boot: edit `/etc/fstab` adding: `UUID=C826B95A26B949E8   /run/media/jun/Data     ntfs    defaults        0 2`
+- other auto mount util: udiskctl 
+
