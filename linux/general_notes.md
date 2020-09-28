@@ -34,7 +34,9 @@
 
 # 6. General Partition mounting.
 - list block devices : ` sudo lsblk -o name,fstype,mountpoint,label,partlabel,size,uuid`
-- manual mount using: `mount -t ntfs /dev/sdc3 /run/media/jun/Data`
+- manual mount using: `mount -t ntfs /dev/sdc3 /run/media/jun/Data -o umask=0022,gid=OwnerGroupID,uid=ownerID`
+  - gid and uid we can get using: `id` command.
+  - umask value using : `umask` command. 
 - auto mount on boot: edit `/etc/fstab` adding: `UUID=C826B95A26B949E8   /run/media/jun/Data     ntfs    defaults        0 2`
 - other auto mount util: `udiskctl` 
 
