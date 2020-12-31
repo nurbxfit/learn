@@ -14,10 +14,14 @@ lib.buildRegex = function(input){
 }
 
 lib.load = function(filename){
+  try{
   const regList = fs.readFileSync(this.baseDir+filename+'.txt','utf8').split('\n');
   regList.pop();
   const regex = regList.map((rgx)=>lib.buildRegex(rgx)); 
   return regex;
+  }catch(error){
+    return null;
+  }
 }
 
 module.exports = lib; 

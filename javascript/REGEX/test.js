@@ -1,8 +1,10 @@
+const regex = require('./loader').load('valregex');
 const app = {}
 
 app.text = ['Hello This is a first text, and quite normal!',
   '(2020), is the year and it is full of shit',
   '2020', 
+  'Integrative Medicine in Hematology/Oncology: Benefits, Ethical Considerations, and Controversies',
   '(2020)',
   '&nbsp',
   '&nbsp;',
@@ -23,21 +25,21 @@ app.text = ['Hello This is a first text, and quite normal!',
   'https://www.jamanet.com/',
 ];
 
-app.regex = [
-  /^\w+\*?\s?$/gi,
-  /^\(\d\)$/gim,
-  /\Ⅲ{3}/gim,
-  /\((\d{4})\)/gim,
-  /\&nbsp\;?/gi,
-  /^Abbreviations$/i,
-  /\[\s?(text\s)?in\sJapanese\s?\]/gi,
-  /((ht|f)tps?\:)?(\/\/)?((\w+\.){2,}\w+\/?)(\w+\/?){1,}/gi,
-  /((?:ht|f)tps?:\/\/)?([^\s\:]+(\.[^\s|^\,]+){2,})/gi,
-  /^\d+\s\(\d+\)/i, //1 (2013)
-]
+//app.regex = [
+  ///^\w+\*?\s?$/gi,
+  ///^\(\d\)$/gim,
+  ///\Ⅲ{3}/gim,
+  ///\((\d{4})\)/gim,
+  ///\&nbsp\;?/gi,
+  ///^Abbreviations$/i,
+  ///\[\s?(text\s)?in\sJapanese\s?\]/gi,
+  ///((ht|f)tps?\:)?(\/\/)?((\w+\.){2,}\w+\/?)(\w+\/?){1,}/gi,
+  ///((?:ht|f)tps?:\/\/)?([^\s\:]+(\.[^\s|^\,]+){2,})/gi,
+  ///^\d+\s\(\d+\)/i, //1 (2013)
+//]
 
 app.validateText = function(text) {
-  return app.regex.map(function(regx){
+  return regex.map(function(regx){
     return (text.match(regx))? {regx, text} : false; 
   })
 }
