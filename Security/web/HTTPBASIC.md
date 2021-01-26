@@ -99,6 +99,7 @@ Upgrade-Insecure-Requests: 1
     ```
     - from the example above, left is the key/field sperated by `:` and the right side is the value.
     - the field name  and value follows the [HTTP protocol standard](https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html)
+    - a program can define their own custom headers, but advisable to follow the protocol standard 
 - there are multiple categories of header.
     - General Headers
     - Entity Headers
@@ -137,13 +138,99 @@ Upgrade-Insecure-Requests: 1
         - Content-Encoding
 
 3. Request Headers
+    - Request Headers are specificly related to the http request made by the client.
+    - unlike `Entity` header, this header have nothing to do with the content of the message.
+    - instead, it is used to provide extra information about the client for the server to handle and manipulate.
+    - as example the `Referer` field that is used to tell the server that this request come from somewhere.
+    - or the `cookie` field that contains cookies value pair information for the server to process.
+    - example of common Request field is.
+        - Host
+        - User-Agent
+        - Accept
+        - Cookie
+        - Referer
+        - Authorization
+        - Origin
+
+    - example Request Headers
+    ```
+    GET / HTTP/1.1
+    Host: drug.cs.usm.my
+    Connection: keep-alive
+    Cache-Control: max-age=0
+    Upgrade-Insecure-Requests: 1
+    User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Mobile Safari/537.36
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+    Accept-Encoding: gzip, deflate
+    Accept-Language: en-GB,en;q=0.9,en-US;q=0.8,ms;q=0.7
+    ```
+
+    - the `Host` field is used to specify the host that the request trying to query.
+    in case of a single server having a multiple web service running on different domain name.
+    - the `Accept` field is used to tell server, which media format the client can support. eg: a html `text/html`
+    - `User-Agent` field describe the information about the client such as the Browser version, the operatin system etc ...
 
 4. Response Headers
+    - Response headers are use by the server response to provide extra information to the client.
+    - example of response message from [Mozilla Developer website](https://developer.mozilla.org/en-US/docs/Glossary/Response_header)
+    ```
+    200 OK
+    Access-Control-Allow-Origin: *
+    Connection: Keep-Alive
+    Content-Encoding: gzip
+    Content-Type: text/html; charset=utf-8
+    Date: Mon, 18 Jul 2016 16:06:00 GMT
+    Etag: "c561c68d0ba92bbeb8b0f612a9199f722e3a621a"
+    Keep-Alive: timeout=5, max=997
+    Last-Modified: Mon, 18 Jul 2016 02:36:04 GMT
+    Server: Apache
+    Set-Cookie: mykey=myvalue; expires=Mon, 17-Jul-2017 16:06:00 GMT; Max-Age=31449600; Path=/; secure
+    Transfer-Encoding: chunked
+    Vary: Cookie, Accept-Encoding
+    X-Backend-Server: developer2.webapp.scl3.mozilla.com
+    X-Cache-Info: not cacheable; meta data too large
+    X-kuma-revision: 1085259
+    x-frame-options: DENY
+    ```
+
+    - `200 OK` is the status code for our request, in this case is 200 OK , our request is successfull.
+    - more information on refer to [status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+    - `Access-Control-Allow-Origin:*`, `Server:Apache`, `Set-Cookie` is the example of Response field.
+    - other field such as `Content-Type`,`Content-Encoding` is the `Entity` Header.
 
 5. Security Headers
-
+    - resource on [Security Header](https://owasp.org/www-project-secure-headers/)
+    - example of common security header
+        - Content-Security-Policy
+        - Strict-Transport-Security
+        - Referrer-Policy
+    
 
 ## HTTPS Flow
 
 
 ## Cookies
+
+## Basic Authentication
+- Basic Authentication is the simplest form of authentication in HTTP GET request.
+- it usually will prompt a form like an alert asking for username and password.
+- we can see that if a webpage require an authentication for us to see it, it will issue a `WWW-Authenticate` field in the header to the client.
+- The client then need to specify the `Authorization` field in its request header to authenticate with the server.
+    - Basic Authentication usually issued like this by the server.
+        ```
+        WWW-Authenticate: Basic realm="Restrcted Content"
+        ```
+    - The client then will issue a `Authorization` header to authenticate with the server.
+        ```
+        Authorization : Basic YWRtawskdljalskjdFSfg2cmQ=
+        ```
+    - the random string after the `Basic` keyword is the based64 encoded username and password that we entered to authenticate with the server.
+
+    - Other then `Basic` there are other form for authorization such as `Bearer`, `Digest`, `OAuth`, `API Key` etc ...
+    - `Digest` use MD5 hashing to transfer our username and password instead of unsecurely encode it using base64
+    - `Digest` is still unsecure as md5 hash algorithm can still be attack.
+
+- In a Browser, we can specify the Basic authentication either by filling the prompted username and password field or directly issued it in the URL.
+- previously we learned that we can provide user in a url.
+- example: `http://admin:password@localhost:4444/`.
+- we can create a simple brute force script using curl by just simply looping and replacing the username and password in the request URL.
