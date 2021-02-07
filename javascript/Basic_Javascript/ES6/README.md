@@ -26,10 +26,10 @@
 - there are two common scope in javascript right now which are **block scope** and **function scope**.
 - A block in javascript is enclosed in the curly bracket `{` this my bllock `}`
 - In language like c++ or Java, when we declare variable in a block scope.
-- those variable are only accessable in the scope it was declared.
+- those variable are only accessible in the scope it was declared.
 - if we try to access the variable outside of the block scope it will throw an error.
-- when we declare a variable in a block, those variable aren't accessable outside of that scope. 
-- But if we declare a variable outside of that block, those variable are accessable inside of the block. if the block is nested.
+- when we declare a variable in a block, those variable aren't accessible outside of that scope. 
+- But if we declare a variable outside of that block, those variable are accessible inside of the block. if the block is nested.
 - example C++ code.
 ```cpp
 int main(){
@@ -46,7 +46,7 @@ int main(){
 - but this is not the case for javascript prior to ES6.
 - in previous version of javascript, we declared most of our variable using the `var` keyword.
 - we have no block scope, only the function scope. 
-- everything declared with `var` in a block, will be accessable outside of that scope.
+- everything declared with `var` in a block, will be accessible outside of that scope.
 - the same code but in javascript declare with `var` will look like this.
 
 ```js
@@ -74,11 +74,11 @@ int main(){
 ```js
     function one(){
         var a = 420;
-        console.log(b); // b is not accessable by one.
+        console.log(b); // b is not accessible by one.
 
         function two(){
             var b = 69; 
-            console.log(a) // a is accessable by two.
+            console.log(a) // a is accessible by two.
         }
     }
 ```
