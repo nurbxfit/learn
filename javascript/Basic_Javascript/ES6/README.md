@@ -100,34 +100,6 @@ int main(){
 - the `let` and `const` keyword enable the use of `block` scope variable.
 - the different between `let` and `const` is that, `const` declared a variable as a constant, and not mutatable after declared.
 
-
-
-### extra unrelated Info.
-- Each `file.js` inside a node.js program, will be invisibly enclosed in a function.
-
-- example when we create a file called `index.js` like this.
-```js
-    //index.js file
-    var express = require('express');
-    var a = {}
-    console.log('Hello World');
-
-    module.exports = a;
-```
-- and run it using **node index.js**
-- our **index.js** is actually enclosed inside a function that look something like this.
-```js
-function(exports,require,module,__filename,__dirname){
-    //index.js file
-    var express = require('express');
-    var a = {}
-    console.log('Hello World');
-
-    module.exports = a;
-}
-```
-- this is why if you are familiar with node.js you can use the module system to `module.exports` and `require` file. because we have the `module.exports`, `require` passed as parameter to our index.js file by the node program.
-
 - example of using let block scope variable.
 ```js
     function main(){
@@ -167,3 +139,30 @@ function(exports,require,module,__filename,__dirname){
         console.log(`a:${a}\nb:${b}\nc:${c}`)
     }
 ```
+
+### extra unrelated Info.
+- Each `file.js` inside a node.js program, will be invisibly enclosed in a function.
+
+- example when we create a file called `index.js` like this.
+```js
+    //index.js file
+    var express = require('express');
+    var a = {}
+    console.log('Hello World');
+
+    module.exports = a;
+```
+- and run it using **node index.js**
+- our **index.js** is actually enclosed inside a function that look something like this.
+```js
+function(exports,require,module,__filename,__dirname){
+    //index.js file
+    var express = require('express');
+    var a = {}
+    console.log('Hello World');
+
+    module.exports = a;
+}
+```
+- this is why if you are familiar with node.js you can use the module system to `module.exports` and `require` file. because we have the `module.exports`, `require` passed as parameter to our index.js file by the node program.
+
