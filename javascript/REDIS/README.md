@@ -32,6 +32,7 @@
 
 ## Storing and Getting Data to Redis
 - redis store data in form of `(key,value)` index.
+- we can only store string date in redis, so let say you want to store an object or array you need to stringify it into a json object.
 - to store data in redis, we use the `set` method from the `redis` node module.
 - example code.
     ``` js
