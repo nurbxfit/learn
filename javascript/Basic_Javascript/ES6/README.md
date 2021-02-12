@@ -1,3 +1,4 @@
+# ES6 basic part 1
 ## ES (ECMA Script).
 - there are many version of it from version 1 until currently v11 in year 2020 from what I read in wikipedia.
 - sometimes you might see something like this:
