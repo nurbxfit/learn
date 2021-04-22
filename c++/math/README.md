@@ -1,9 +1,4 @@
 
-______
-Author: Nurfitri
-
-_______
-
 # Introduction
 these tutorials is based on learning C++ through solving problems. 
 
@@ -34,7 +29,7 @@ the program will loop until number 200, and check if the number in between 3 and
 - we need large memory space to store the sum. so sum need to be declared using long long data type.
 - the different between int and long is that:
 	- int is at least 16-bit of size, means around 2^16 (65,536) numbers can be stored in that variable.
-	- long is at least 32-but of size
+	- long is at least 32-bit of size
 	- long long is at least 64-bit of size. 
 - if we declared it as int, and stored the value of more than 66 thousand in it, it will caused an overflow in the memory. 
 
@@ -42,8 +37,8 @@ the program will loop until number 200, and check if the number in between 3 and
 ```cpp
 int main()
 {
-	unsinged int limit = 0 ; // we use unsinged because we know that number is a natural (positive int) numbers
-	unsinged long long sum = 0; // because the limit can be a large number, we need more storage to store out sum.
+	unsinged int limit(0) ; // we use unsinged because we know that number is a natural (positive int) numbers
+	unsinged long long sum(0); // because the limit can be a large number, we need more storage to store out sum.
 	std::cout << "Upper Limit" ;
 	std::cin >> limit;
 
@@ -57,3 +52,5 @@ int main()
 
 }
 ```
+
+

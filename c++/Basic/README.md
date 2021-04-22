@@ -1,6 +1,6 @@
 ## C/C++ basic types.
 os: linux.
-format: typename : 32-bit size in bytes : 64-bit size in bytes : printf format specifier.
+format: typename : 32-bit os size in bytes : 64-bit os size in bytes : printf format specifier.
 - short                 : 2 : 2 : %hd
 - unsigned short        : 2 : 2 : %hu
 - int                   : 4 : 4 : %d
