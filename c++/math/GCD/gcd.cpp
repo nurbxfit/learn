@@ -6,6 +6,12 @@ unsigned int getValue(){
     scanf("%u",&a);
     return a;
 }
+
+/*
+using Euclidean algorithm, largest number, devide without remainder.
+- if find remainder then, two number no longer divisible,
+- at point where them no longer divisible is the greates common divisor.
+*/
 unsigned int gcd(unsigned int a, unsigned int b){
     while(b!=0){
         unsigned int remainder = a % b;
