@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+section {
+    background: rgb(253, 122, 150);
+}
+
+h1 {
+    color: white;
+    font-family: 'Anton', sans-serif;
+}
+
+.whiteText{
+    color : white;
+}
+
+[disabled] {
+    color:white;
+}
+
+[title="tooltip"] {
+    color : green;
+}
