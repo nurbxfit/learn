@@ -109,3 +109,29 @@
         alias ll='ls -al';
         ```
         - make sure there is not spaces at `=`
+
+# Braces expansion. {}
+- it is used to generate strings.
+- it is will expand value in braces to the outside.
+- let say we have `{x,y,z}{a,b,c}`:
+    - it will generate set of `xa,xb,xc,ya,yb,yc,za,zb,zc`
+- whenever we write braces in shell, it will be interpreted as braces expansion.
+- example: `echo {01,02,03,04,05,06,07,08,09}.videos`
+- example2: `echo 192.168.1.{0,1,2,3,4,5}`
+- example3: `touch testfile_{01,02,03,04,05}.txt`
+- example4: `mkdir -p ./years/{jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}_{2019,2020,2021}`
+- example5: `mkdir -p ./months/{1..12}_2021`
+- we can use it like a range loop in python.
+    ```bash
+    for x in {1..13}
+    do
+        echo x
+    done
+    ```
+- we can also use it to generate letters A..Z
+    ```bash
+    for x in {A..Z}
+    do 
+        echo $x
+    done
+    ```
