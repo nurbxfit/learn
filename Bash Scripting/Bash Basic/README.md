@@ -120,7 +120,8 @@
 - example2: `echo 192.168.1.{0,1,2,3,4,5}`
 - example3: `touch testfile_{01,02,03,04,05}.txt`
 - example4: `mkdir -p ./years/{jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}_{2019,2020,2021}`
-- example5: `mkdir -p ./months/{1..12}_2021`
+- example5 `ls ./years/{jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}_{2019,2020,2021}`
+- example6: `mkdir -p ./months/{1..12}_2021`
 - we can use it like a range loop in python.
     ```bash
     for x in {1..13}
@@ -131,6 +132,13 @@
 - we can also use it to generate letters A..Z
     ```bash
     for x in {A..Z}
+    do 
+        echo $x
+    done
+    ```
+- we can also combine it.
+    ```bash
+    for x in {1..5}{A..Z}
     do 
         echo $x
     done

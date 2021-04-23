@@ -9,3 +9,8 @@ for x in {A..Z}
 do 
     echo $x
 done
+
+for x in {1..5}{A..Z}
+do 
+    echo $x
+done
