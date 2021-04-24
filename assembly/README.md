@@ -36,7 +36,7 @@
 
 ### CPU Instruction.
 - an instruction consist of a `operation code` (opcode) and `operands`
-- `opcode` is mnemonics for operations such as `LOAD`, `MOVE`, `ADD`, `STORE`.
+- `opcode`/instruction is mnemonics for operations such as `LOAD`, `MOVE`, `ADD`, `STORE`.
 - when we want to tell a machine to add something, we use the `ADD` operation, which takes two `operands`.
 ```assembly
 ADD R0, R2,R3 ; this is example of add operation,
@@ -46,7 +46,7 @@ ADD R0, R2,R3 ; this is example of add operation,
 - operands is basically a data like an arguments to ADD function.
 - we can pass these data to CPU via few different ways.
 - ways CPU accessing data, is called [addressing modes](https://binaryterms.com/addressing-modes-and-its-types.html).
-- thare are diffrents addressing modes such as:
+- thare are diffrents `addressing modes` such as:
     - `immediate mode`; actual/immediate data are given.
     - `register addressing mode`; a register contains actual value.
     - `indexed addressing mode`; a register contains address of value in CPU memory.
@@ -71,7 +71,7 @@ ADD R0, R2,R3 ; this is example of add operation,
     - you can find `hello.o` in folder `x86/Hello/hello.o`.
 
     ### under the .section .text
-    - we can see the starting our our instruction code.
+    - we can see the starting of our instruction code.
     ```assembly
     # hashtag is a comments
     # INPUT: none
@@ -102,10 +102,11 @@ ADD R0, R2,R3 ; this is example of add operation,
 
 
     # simple note:
-    # eax : syscall 
+    # eax : takes syscall 
     # ebx : first argument
     # ecx : second argument
     # edx : third argument# hashtag is a comments
+    # refer to `man syscall` and `man 2 syscalls`
     ```
     - we can see `.global _start`, which tells the assembler, that _start is the symbol to label the location for our code.
     - we can write another function with label _myfunct, then _myfunct is a label to the location of our function instructions. 
@@ -114,6 +115,23 @@ ADD R0, R2,R3 ; this is example of add operation,
     - it's like the main function in c/c++.
     - then we see the `_start:` which defines our label.
 
+    ### The Assembly Instruction
+    ```assembly
+    movl $4, %eax #hashtag is a comment
+    ```
+    - the following instruction tells, the cpu, that we want to move,
+    the value `4` the general purpose register `%eax`, which the dollar `$` sign infront indicating using the `immediate addressing` mode.
+    - the `movl` is what we call an [opcode/insruction](https://retrocomputing.stackexchange.com/questions/5284/whats-the-difference-between-opcode-and-instruction-in-this-zilog-ad), `$4` and `%eax` is the operand for the instruction.
+    - the reason we transfer `$4` into `%eax`, is that `$4` is the syscall for write.
+    - refer [here](http://faculty.nps.edu/cseagle/assembly/sys_call.html)
 
-    
-
+    ### What is syscall ?
+    - syscall is like a function call.
+    - we use it to tells the Linux kernel that we want to do something.
+    - in the example above, we tell the kernel we want to invoke the write syscall. by moving `$1` into `%eax`.
+    - the `write` syscall takes two arguments which is the `string` and the `length` of the string, we pass these argumrnts into `%ebx` and `%ecx` respectively.
+    - after we put `$1` into `%eax` we call the kernel to run our syscall.
+    - we do this by providing interupt number $0x80 `int $0x80` to the system which trigger the interupt handler for hex value `0x80`.
+    - the interupt handler for code `0x80` in linux OS is the Kernel itself.
+    - we can see the program calling the syscall if we run it using strace.
+    - `strace ./hello`
