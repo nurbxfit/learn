@@ -143,3 +143,48 @@
         echo $x
     done
     ```
+
+## Regular Expression.
+### wildcard:
+- asterik (*). asterik will match anything.
+    - `ls *.mp4` ; this will match anything that ends with `.mp4`
+- question mark (?). act like a placeholder. 
+    - `ls ?.mp4` ; this will replace `?` with anything and end with `.mp4`
+    - let say we have file `c++.mp4`, `ass.mp4`, `css.mp4` and `b.mp4`
+    - using `ls ?.mp4` ; match only `b.mp4`
+    - using `ls ?ss.mp4` ; match only `ass.mp4` and `css.mp4`
+    - using `ls ???.mp4` ; match only `c++.mp4`, `ass.mp4` and `css.mp4`
+
+- bracket []. act like a range OR.
+    - it will match any in that bracket.
+    - using `ls [ac]ss.mp4` ; match `ass.mp4` and `css.mp4`
+    - using `ls [a-z]ss.mp4`; match any `[a until z]` that end with `ss.mp4`.
+    - we can also use with number `ls [0-9]ss.mp4`.
+    - or `ls [1,5]ss.mp4`.
+    - or capital letter `ls [A-Z]ss.mp4`.
+
+    - drawback is when we have names like `adam_video.mp4`, `james_video.mp4`, `marry_video.mp4`.
+    - we cannot use `ls [adam,marry,james]_video.mp4` to match it.
+    - instead we can use `ls *_video.mp4`.
+
+- note: this wildcard not only limited to `ls` command; this is just an example.
+    - we can also use `rm [a-z]ss.mp4`
+    - basically useable with command that find and perform action.
+    - to create use {} instead. eg: `touch {a..z}ss.mp4`;
+
+
+## Locating File.
+### Locate
+- using `mlocate`; this will perform finding using cached database.
+- we can install using `sudo apt install mlocate`.
+- `mlocate` build a database index of all files in our system.
+- when we run it, it show file we trying to locate but only if that file is accessable by us (the one who run it).
+- [this comments](https://unix.stackexchange.com/questions/273182/difference-between-locate-and-mlocate). say that it is a security risk because mlocate has to be `setuid root`.
+- we can use locate by using `locate` followed by the name of file we trying to locate.
+    - usage: `locate [a-z]ss.mp4`
+    - it will give use the path location of that file.
+    - using `-i` args to make it case insentive.
+    - using `--limit` to limit the result.
+    - more info about it try look at the man page.
+
+### Find.
