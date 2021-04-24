@@ -1,8 +1,3 @@
--------
-Author: Nurfitri
-Title: x86 assembly 
--------
-
 
 # Introduction
 

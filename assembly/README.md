@@ -52,3 +52,68 @@ ADD R0, R2,R3 ; this is example of add operation,
     - `indexed addressing mode`; a register contains address of value in CPU memory.
     - `direct addressing mode` ; an address of value located in CPU memory.
 - these addressing modes, indicates whether data is passed directly or indirectly via reference pointing to memory address or a register holding a value.
+
+
+## Outline of Assembly Program.
+- anything start with a dot (.) is called a assembler directives or pseudo-operator.
+- it is not an CPU instruction, instead something telling the assembler what to do with this information.
+- we can see this as the preprocessor directives in C/C++ program that tells compiler what to do with the information when compiling.
+
+    ### .(d0t)section
+    - tells the assembler to divide our program into sections or segments.
+    - each sections contains specific types of data.
+    - if we see our object file, using `objdump` we can see the seperation.
+    - most simple assembly program are divide into two sections.
+    - `.data` or `.bss`; store static data for the program.
+    - `.text`; contains instruction codes.
+    ![objdump example](./pics/objdump.png "objdump example")
+    - example running `objdump -D hello.o` ;
+    - you can find `hello.o` in folder `x86/Hello/hello.o`.
+
+    ### under the .section .text
+    - we can see the starting our our instruction code.
+    ```assembly
+    # hashtag is a comments
+    # INPUT: none
+    # OUTPUT : Hello World
+    # VARIABLES: eax, ebx, ecx ,edx
+    # checkout intel syntax version in x86 folder.
+
+
+    .section .text
+    .global _start
+
+    _start:
+        movl $4, %eax       # mov linux sys_write(4) syscall number to eax.
+        movl $1, %ebx       # mov file handler (stdout) to ebx (first argument)
+        movl $message, %ecx # mov our message to ecx (second argument)
+        movl $len, %edx     # mov message length to edx (third argument)
+        int $0x80            # call kernel interupt and exit.
+
+        movl $0, %ebx       #return exit code 0 to kernel.
+        movl $1, %eax       # mov syscall for sys_exit(1) to eax.
+
+        int $0x80            #call kernel interupt and run sys_exit
+    .section .data
+    message:
+        .ascii "Hello World\n" # our output string
+        len = .- message # length of our string
+
+
+
+    # simple note:
+    # eax : syscall 
+    # ebx : first argument
+    # ecx : second argument
+    # edx : third argument# hashtag is a comments
+    ```
+    - we can see `.global _start`, which tells the assembler, that _start is the symbol to label the location for our code.
+    - we can write another function with label _myfunct, then _myfunct is a label to the location of our function instructions. 
+    - `.global` means that the assembler shouldn’t discard this symbol after assembly.
+    - `_start` are usually marked with `.global` to indicate the starting point of our program.
+    - it's like the main function in c/c++.
+    - then we see the `_start:` which defines our label.
+
+
+    
+
