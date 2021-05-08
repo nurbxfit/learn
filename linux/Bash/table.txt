@@ -1,0 +1,6 @@
+fname lname age gender
+James Grindal 20 M
+Wanda Full 23 F
+Kane Wooden 22 M
+Jane Glass 21 F
+Ben Grindal 23 M

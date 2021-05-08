@@ -125,6 +125,23 @@ ADD R0, R2,R3 ; this is example of add operation,
     - the reason we transfer `$4` into `%eax`, is that `$4` is the syscall for write.
     - refer [here](http://faculty.nps.edu/cseagle/assembly/sys_call.html)
 
+    ### NOTES FROM wikibooks.
+    - For GNU assembly syntax (GAS)
+    - [reference](https://en.wikibooks.org/wiki/X86_Assembly/GAS_Syntax)
+    - GAS assembly instructions are generally suffixed with the letters "b", "s", "w", "l", "q" or "t" to determine what size operand is being manipulated.
+    ```
+        b = byte (8 bit).
+        s = single (32-bit floating point).
+        w = word (16 bit).
+        l = long (32 bit integer or 64-bit floating point).
+        q = quad (64 bit).
+        t = ten bytes (80-bit floating point).
+    ```
+    -   If the suffix is not specified, and there are no memory operands for the instruction, GAS infers the operand size from the size of the destination register operand (the final operand). 
+
+    - so a base instruction like `mov` if we want to move 4 bytes we use `movl`, if we want to move single byte we use `movb`.
+    - if we want to increment (`inc`) by 4 bytes we use  `incl`
+
     ### What is syscall ?
     - syscall is like a function call.
     - we use it to tells the Linux kernel that we want to do something.
@@ -135,3 +152,45 @@ ADD R0, R2,R3 ; this is example of add operation,
     - the interupt handler for code `0x80` in linux OS is the Kernel itself.
     - we can see the program calling the syscall if we run it using strace.
     - `strace ./hello`
+
+## Conditional Statement in Assembly.
+- in high level programming, we usually change our flow of instruction using the `if statement`.
+- in assembly there are two ways to mimic `if` statement thru `conditional jump` and `unconditional jump` instructions.
+- conditional jump, change path based on the condition/result of previous operations such as comparison or calculation.
+- unconditional jump, simply jump to other path without influence by any condition, example of this is like `goto` in c++. we can go to specific label in code. 
+
+### list of conditional statements:
+    - je    : jump if equal
+    - jg    : jump if greater
+    - jge   : jump if greater or equal
+    - jl    : jump if less
+    - jle   : jump if less or equal
+    - jmp   : jump directly (unconditional)
+
+## Looping in Assembly.
+- in assembly there's no `for`,`do while`,`while` or any other loop.
+- what we have is more like a recursion.
+- what we do is:
+    - we label part of code.
+    - we check for condition
+    - we jump to the label
+    - this steps repeat until the condition statisfy what we want to do.
+
+## Different Memory Types (like data types in C++)
+- `.byte` : 
+    - allocate single byte of memory.
+    - can store numbers between 0 and 255
+- `.int`  : 
+    - allocate 2 bytes of memory
+    - can store numbers between 0 and 65535
+- `.long` : 
+    - allocate 4 bytes of memory.
+    - can store numbers between 0 to 4294967295
+- `.ascii`: 
+    - converts a string into bytes and store each charecters into a single memory location.
+    - example `"Hello\n"` will allocate 6 bytes/rooms and store each character from `'H'` to `\n` in each rooms.
+
+- in the `findLargest` code example inside folder 'GNU assembly/conditional and loop'.
+- we declared a list of numbers using `.long`
+- what we did is that we allocate 4 bytes for each numbers in that list.
+- in our list `2,3,1,99,125,33,21,255,11,0` of 10 numbers, we allocate 10 x 4 bytes of memory space (equals: 40 bytes).
