@@ -164,7 +164,7 @@ FINAL_ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + %INDEX * MULTIPLIER
   - to get the number 2 which is the value at index 3 in that stack and store it in %ebx.
 
   ```
-  movl 2(%eax),%ebx
+  mov 2(%eax),%ebx
   ```
 
   - this take the address 0x1 and and 2 to it. = 0x3.
@@ -186,7 +186,7 @@ FINAL_ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + %INDEX * MULTIPLIER
   - so
 
   ```assembly
-    movl (0x3), %ebx
+    mov (0x3), %ebx
   ```
 
   - `%ebx` contains the value `2`
@@ -198,7 +198,7 @@ FINAL_ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + %INDEX * MULTIPLIER
         1    2   3   4   5
 
         =====================
-        | 3 | 1 | 2 | 4 | 3 |
+        | 3 | 1 | 2 | 4 | 0 |
         =====================
   ```
 
