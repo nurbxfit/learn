@@ -295,12 +295,23 @@ Your partner code from remote repo
 
 - reset.
 
-  - unlike checkout using `git reset --hard`, we will not checkout into new branch, but instead will remove file from staging, reset current working directory.
-  - like checout, to reset our working code to particular point, we can use `git reset`
+  - there are 3 type of reset
+    - `git reset --soft <SHA1/TAG>` ; change where the head point to.
+    - `git reset <SHA1/TAG>` ; this default to mixed.
+    - `git reset --hard <SHA1/TAG>` ; this discard our staged file and clean our working directory to be same as that particular commit location.
+  - unlike checkout using `git reset --hard`, we will not checkout into new branch, but instead will remove file from staging and reset current working directory.
+  - like checkout, to reset our working code to particular point, we can use `git reset`
   - `git reset HEAD` will reset our code to our HEAD (our current commit) incase we make changes in working directory and stage it, but we want to fully revert it.
   - `git reset HEAD^`, append `^` symbol will going back 1 commit before HEAD.
   - `git reset HEAD~2`, will go back 2 commit before HEAD, change 2 with other number.
   - `git reset HEAD@{1}` will undone our reset / mean reset to one HEAD front instead of one HEAD before.
+  - `git reset <SHA1>` will reset to that particular commit id.
+
+  - when performing `git reset` we can see the log of our actions using `git reflog` command.
+  - this will list all our actions such as `commit`,`checkout`, and `reset`.
+  - this is usefull when we exidently perform a hard reset and wiped out or stages or working direcotry.
+  - when performing `git reset --hard HEAD~2`, our head will point to that below 2 commit, and the top most commit we made be gone from out `git log`.
+  - we can use `<SHA1>` id for our actions from `reflog` to get to the point before we perform reset.
 
 # Basic Git Logs.
 
@@ -388,3 +399,31 @@ Your partner code from remote repo
   ++
 
   ```
+
+# Git Stash
+
+- let say we made changes to a file.
+- then change our mind and wanting re-edit it, but we don't want to remove what we already done.
+- we can temporary save our changes using `git stash` command.
+- `git stash` will save our working directory and index the state WIP (Work in Progress) on that particular changes.
+- it's like boxing our changes, and put it somewhere for next time use.
+- we can list our stash using `git stash list`.
+- after saving into our stash, we will get a clean working tree (like a clean desk).
+- here we can make changes again, and commit our changes.
+- next time when we need to get back our stash, we can use `git stash pop` or `git stash apply`.
+- `git stash pop`, will pop our top most stashes in our stashes list, and add it to our working directory.
+
+  - it's like take our most recent stash and put it on table.
+  - this will remove the stash from the stash list.
+
+- example cases.
+  - let say we are editing a code in a file `app.js`.
+  - we now have app.js set to modified, Changes to be committed.
+  - we not yet commit this file, because there is lot of work need to do.
+  - then suddenly our manager call and ask us to make change to file `.config` ASAP.
+  - if we make changes to .config and commit it now, we will also be commiting our `app.js` and we don't want that.
+  - so we can use `git stash` to stash our `app.js`, and then only commit the `.config` file.
+    - what we do is we first perform a `git stash`.
+    - then we edit our `.config` file.
+    - then we commit `git commit -am 'edit config: update db url'`
+    - then we can get back our stash files using `git stash pop`
