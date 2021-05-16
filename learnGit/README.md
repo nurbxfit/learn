@@ -242,7 +242,7 @@ Your partner code from remote repo
   This is first line
   ```
   - if we want to remove the changes from our working file and revert our code to the previous state before we edit and put to stages (means we want to be same as our previous/current commit).
-  - we can use `git checkout -- README.md` or `git reset --hard HEAD`.
+  - we can use `git checkout -- <FILENAME>` or `git reset --hard HEAD`.
   - then if we view our file we only see
   ```
   Hello World
