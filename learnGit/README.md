@@ -1,25 +1,17 @@
-# Basic Command.
+# Basic Understanding.
 
-- `git pull`
-- `git push`
-- `git commit`
-- `git branch`
-- `git add`
-- `git stash`
-- `git status`
+- git is a version control tools, it is a timeline of our works to a file.
+- basically it tracks our works as a milestone every time we commit it.
+- let say we want to write a book, we wrote few chapters 1 - 3 then we commit it. git will create index information about what we've done.
+- then we decided to change the name of our main character From Bob to Harry.
+- we make a change save it and commit it. git will also keep track of this changes.
+- then later in future we want to revert back changing our character name from Harry to Bob.
+- we can easily refer to our previous commit, and revert back the changes.
+- basically git keep tracks of modification that we made to our projects, whether we write a text documents, a code or simply indexing file changes or in an out of a folder.
 
-# Creating and Initialize Git repo.
+### Git work flow.
 
-- simply create a project folder
-- initialize folder using `git init` command.
-
-```
-mkdir myProject && cd myProject && git init
-```
-
-# Git worksflow.
-
-- Git workflow consist of 3 stages, or states.
+- Git workflow consist of 3 or 4 stages/states.
 
   1. working directory.
   2. Staging area
@@ -52,6 +44,44 @@ mkdir myProject && cd myProject && git init
   - we can remove our upstream origin using `git remote rm <name>`
     - this will delete the remote repo, and we'll not use it to `git push` to remote.
     - if we simply want to rename it we can use `git remote rename <oldname> <newname>`
+
+## Commits.
+
+- commiting is like giving a tags, or pin a point to a particular changes in our development timeline.
+- this particular point will be index by the git system.
+
+## Branching.
+
+- our main timeline is called the master or main repository.
+- branching is like diverging from the main stream or main timeline.
+- this will create a copy with history of our main timeline and we can future create new features from here.
+- when we create a branch, the main timeline diverge into the branch of it.
+- the branch can move on creating their own timeline but still have a the origin point connected to the main timeline.
+- the main timeline can also continue future making it timeline.
+- these branches can latter merge back into the main timeline.
+
+## Forking.
+
+- forking is making the copy of a repository.
+
+# Basic Command.
+
+- `git pull`
+- `git push`
+- `git commit`
+- `git branch`
+- `git add`
+- `git stash`
+- `git status`
+
+# Creating and Initialize Git repo.
+
+- simply create a project folder
+- initialize folder using `git init` command.
+
+```
+mkdir myProject && cd myProject && git init
+```
 
 # common usecase.
 
@@ -87,7 +117,60 @@ mkdir myProject && cd myProject && git init
 - the command is `git push origin master`
 - to push into a branch simple change the `master` branch with other branch name.
 
-# Merge Conflic use case.
+# Basic Branching and Merger.
+
+## Branching.
+
+- we can list our branches using `git branch` or `git branch -a`.
+- this will usually list the branches and highly current branch in green with asterik `*`.
+- to create new branch we can use `git branch <branch name>`
+- alternatively we can create using `git checkout -b <branch name>`
+  - this will create our new branch and automatically checkout to that branch.
+- to delete a branch we can use `git branch -d <branch name>`.
+- to switch branch we can use `git checkout <branch name>`
+
+## Merging.
+
+- after we made a edit or update a features in our branch, we can merge it our the main branch.
+- to merge to master, we fisrt change our branch to the master using `git checkout master`.
+- then from master, we merge using `git merge <branch name>`.
+- if there's no conflict with the changes made, those changes will be applied automatically to the main branch.
+  - this usually happen in `fast foward merge` where, master have no commits ahead of the branch.
+  - where the branch is ahead of master.
+  - it simply takes the commits made by the branches and applied as the commits in master.
+  - the result is merged commits in both branch and master will have same SHA1 commit ids.
+- problem can happen when there's conflicts.
+
+  - let say in new branch we edit in line 20 and commit it.
+  - in other branch we also edit it line 20 and commit it.
+  - then we want to merge these two branch together, and conflict will occured because git have no idea which changes we want to kept or remove.
+  - example output of `git log --oneline --all`
+
+  ```
+  jun@null:~/Developer/LearnGit/test$ git log --oneline --all
+
+  3b16cc5 (HEAD -> new-detach-v2) Conflic update
+  e4f38ee (newBrach) Bad Commit
+  1630ba0 resolve conflict
+  330d596 (prev-detached) new line in detached branch
+  157de9a (new-detach, new) Second line new branch
+  99c7935 New line new branch
+  e85642a (master) Fourth Commit
+  fa3a2e7 Third Commit
+  4482d66 second commit
+  86bdb69 First Commit
+
+  ```
+
+  - `newBranch` diverge from `new-detach-v2` branch.
+  - `newBranch` made a `Bad commit`.
+  - so in git log timeline, newBranch `Bad Commit` is ahead of it's master which is `new-detach-v2`.
+  - then in `new-detach-v2` we also create a new commit called `Conflic update` making changes as the same line.
+  - so `new-detach-v2` is now one commit ahead of `newBranch`.
+  - when merging these two branches, a error called `Merge conflicts` will occured.
+  - and we have to manually fix the conflicts to merge it.
+
+# Merge Conflicts cases.
 
 - let say you are in collaboration with other developer.
 - you currently editing a file, the other developer also did the same with the same file,
@@ -120,9 +203,9 @@ Your partner code from remote repo
 - then perform a commit `git commit -am "conflic resolved"`
 - then push it to the remote repo : `git push origin master`
 
-## Basic Staging.
+# Basic Staging.
 
-### Removing from stages
+## Removing from stages
 
 - let say we modified a file README.md,
 - in it we write "Hello World" and perform the first commit.
@@ -146,7 +229,7 @@ Your partner code from remote repo
   ```
   - because it is the content of our current commit HEAD.
 
-## Basic Commit and checkout.
+# Basic Commit and checkout.
 
 - few ways to create a commit.
 
@@ -199,7 +282,7 @@ Your partner code from remote repo
   - `git reset HEAD~2`, will go back 2 commit before HEAD, change 2 with other number.
   - `git reset HEAD@{1}` will undone our reset / mean reset to one HEAD front instead of one HEAD before.
 
-## Basic Git Logs.
+# Basic Git Logs.
 
 - we use git logs to see the history of our commit.
 - this command show usefull information for each commit such as the author, date, commit message and SHA1 of our commits.
@@ -208,3 +291,14 @@ Your partner code from remote repo
 - `git log --oneline`, will show commit info in one line, without extra info.
 - `git log --all`, show commit for all branches.
 - we can combine these filter toger such that `git log --graph --decorate --oneline --all`
+
+# Diff
+
+- to show different between commits point or branches.
+- we use `git diff <SHA1> <SHA1>` or `git diff <branch1> <branch2>`.
+- let say we want to see the different between our HEAD (current commit) and previous commit.
+  - `git log` to list our commit history.
+  - select a commit we want to compare.
+  - then simply run `git diff <SHA1> HEAD`
+  - newly added content will be highlight in green with plus `+` sign while delete will be highlight in red with minus `-` sign.
+  - scroll thru it using keypad down button.
