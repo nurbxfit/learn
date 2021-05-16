@@ -169,6 +169,26 @@ mkdir myProject && cd myProject && git init
   - so `new-detach-v2` is now one commit ahead of `newBranch`.
   - when merging these two branches, a error called `Merge conflicts` will occured.
   - and we have to manually fix the conflicts to merge it.
+  - we can view more information about the conflict using `git status`.
+  - if we want to abort the merge we can use `git merge --abort`
+  - after a succesfull merger, we can see in `git log`, that our branches are pointing to the same commit id.
+
+  ```
+  jun@null:~/Developer/LearnGit/test$ git log --oneline
+
+  6e89149 (HEAD -> new-detach-v2, newBrach) resolve conflict
+  3b16cc5 Conflic update
+  e4f38ee Bad Commit
+  1630ba0 resolve conflict
+  330d596 (prev-detached) new line in detached branch
+  157de9a (new-detach, new) Second line new branch
+  99c7935 New line new branch
+  e85642a (master) Fourth Commit
+  fa3a2e7 Third Commit
+  4482d66 second commit
+  86bdb69 First Commit
+
+  ```
 
 # Merge Conflicts cases.
 
@@ -302,3 +322,69 @@ Your partner code from remote repo
   - then simply run `git diff <SHA1> HEAD`
   - newly added content will be highlight in green with plus `+` sign while delete will be highlight in red with minus `-` sign.
   - scroll thru it using keypad down button.
+
+# Git TAGS
+
+- git tags simply gives a name or label to any commits point.
+- you might noticed the `HEAD` label in our current commit.
+- `HEAD` is just a tags indicating we are currently in this commit.
+- we can list tags using `git tag --list`.
+- there are two types of tags,
+  - `lightweight tags`: simply tags with no information associated.
+  - `annotated tags` : tags with extra information.
+- we can create new lightweight tags using `git tag <tagname>`
+
+  - this simply create new tag in current commit what we are in.
+  - example we create tag named `myLightTag` using `git tag myLightTag`.
+  - we can see it when we use `git log` command.
+
+  ```
+  jun@null:~/Developer/LearnGit/test$ git log --oneline
+
+  6e89149 (HEAD -> new-detach-v2, tag: myLightTag, newBrach) resolve conflict
+  3b16cc5 Conflic update
+  e4f38ee Bad Commit
+  1630ba0 resolve conflict
+
+  ```
+
+- to delete tag we use, `git tag -d <tagname>`
+- to create new annotated tag, we use the `-a` options.
+
+  - `git tag -a <tagname> -m <message about tag information>`
+  - let say we want to create a version tag.
+  - `git tag -a v0.1 -m "Version 0.1 development"`.
+  - then we can see information about that specific tags version using `git show <tagname>`
+
+  ```
+  jun@null:~/Developer/LearnGit/test$ git show v0.1
+
+  tag v0.1
+  Tagger: nurbxfit <myemail@gmail.com>
+  Date:   Sun May 16 22:50:21 2021 +0800
+
+  Version 0.1 development
+
+  commit 6e89149c730429d9765884cc7d826720d3f96211 (HEAD -> new-detach-v2, tag: v0.1, newBrach)
+  Merge: 3b16cc5 e4f38ee
+  Author: nurbxfit <myemail@gmail.com>
+  Date:   Sun May 16 22:12:51 2021 +0800
+
+      resolve conflict
+
+  diff --cc README.md
+  index 48f510b,971633d..0842b72
+  --- a/README.md
+  +++ b/README.md
+  @@@ -7,4 -7,4 +7,8 @@@ Second Line in new Branc
+
+    Detached line in new branch
+
+  -Bad commit
+  ++
+  +Conflicting update
+  ++
+  ++
+  ++
+
+  ```
