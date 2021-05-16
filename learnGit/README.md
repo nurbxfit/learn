@@ -400,6 +400,9 @@ Your partner code from remote repo
 
   ```
 
+  - when push our local repo to remote repo we can sync our local tags to remote repo using `--tags` options.
+  - `git push -u <originname> <branch> --tags`
+
 # Git Stash
 
 - let say we made changes to a file.
