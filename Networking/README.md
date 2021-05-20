@@ -27,5 +27,4 @@ topology design and implementation either using CISCO IOS devices or linux netwo
     - WAN (Wide Are Network).
     - use to connect to another router or Wide networks own by the ISP (internet Service Provider).
 
-- a packet reach a router can ends in the router if the router final destination of that packet (specified by the destination mac address).
 -
