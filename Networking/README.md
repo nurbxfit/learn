@@ -31,7 +31,7 @@ topology design and implementation either using CISCO IOS devices or linux netwo
   - going down a layer is when our browser trying to make connection to google's server.
   - this communication to create a connection session is in the `transport layer`.
   - to create a connection, we craft a message example saying `hey google browsr want to create a two way communicaton with you`.
-  - we then assgin a port number to associate the message with the service sending the message.
+  - we then assgin a port number to associate the message with the service sending the message which is the browser process.
     - note: port number usually associate with services.
   - to send that message, we pass the message down under a layer which is the `Internet layer`.
   - here Internet layer assign the address which is the IP address of Google server to the message. It encapsulate the message in an envelop with the address.
