@@ -8,9 +8,9 @@ each character types had their own size and limit.
 
 int main(int argc, char ** argv){
 
-    float f1 {1.11111111} ; //float only accurate up to 6 digits
-    double d1 {1.11111111111111111111111111111111};
-    long double ld1 {1.1111111111111111111111111111111111}; 
+    float f1 (1.11111111) ; //float only accurate up to 6 digits
+    double d1 (1.11111111111111111111111111111111);
+    long double ld1 (1.1111111111111111111111111111111111); 
 
     std::cout << std::endl;
     std::cout <<"Min unsigned short int: " << std::numeric_limits<unsigned short int>::min() << std::endl;

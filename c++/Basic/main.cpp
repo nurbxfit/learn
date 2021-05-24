@@ -33,12 +33,12 @@ int returnGlobalPlusOne (){
 int main (int argc, char** argv){
     
     //different data types we can declare
-    int myInteger{100};
-    bool myBoolean {true};
-    char singleCharacters{'F'};
-    std::string stringOfChar{"Hello"}; //string is not primitive, so we need to use std::
-    const char * cstyleString{"C style String"};
-    const char cstyletwo[] {"Second C style String"};
+    int myInteger(100);
+    bool myBoolean (true);
+    char singleCharacters('F');
+    std::string stringOfChar("Hello"); //string is not primitive, so we need to use std::
+    const char * cstyleString("C style String");
+    const char cstyletwo[] ("Second C style String");
     auto inttype = 1;
     auto chartype = 'R';
 

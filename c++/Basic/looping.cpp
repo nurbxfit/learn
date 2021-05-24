@@ -2,7 +2,7 @@
 #include<vector>
 
 int main(int argc,char** argv){
-    int i {0} ;
+    int i (0) ;
 
     //example do while loop
     // do this while condition true.

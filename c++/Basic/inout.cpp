@@ -31,11 +31,11 @@ An integer value cannot be converted to a floating-point type.
 */
 int main(int argc, char ** argv){
 
-    int myNumb {0};
+    int myNumb (0);
     srand(time(NULL));
-    int secretNumb {rand()%11};
-    std::string strNumber{"10"};
-    int intNumber{stoi(strNumber)};
+    int secretNumb (rand()%11);
+    std::string strNumber("10");
+    int intNumber(stoi(strNumber));
     std::cout << "examaple output to screen" << std::endl;
     std::cout << "example str to int stoi: "<< intNumber << std::endl;
     
