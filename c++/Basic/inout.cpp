@@ -1,6 +1,8 @@
 
 #include<iostream>
 #include<string>
+#include<ctime>
+#include<random>
 
 /*
 copying and pasting from Bjarne Stroustrup's "The C++ Programming Language 4th Edition":
@@ -30,6 +32,8 @@ An integer value cannot be converted to a floating-point type.
 int main(int argc, char ** argv){
 
     int myNumb {0};
+    srand(time(NULL));
+    int secretNumb {rand()%11};
     std::string strNumber{"10"};
     int intNumber{stoi(strNumber)};
     std::cout << "examaple output to screen" << std::endl;
@@ -37,22 +41,16 @@ int main(int argc, char ** argv){
     
 
     do{
-        if(myNumb > 0){
-            std::cout << "try again" << std::endl;
-        }
-        else if (myNumb < 0){
-            std::cout << "You guessed to low" << std::endl;
-        }
-        std::cout << "Guess a number (1-10): ";
+        
+        std::cout << "Guess a number (0-10): ";
         std::cin >> myNumb;
+        if(myNumb > secretNumb) std::cout << "To high, try again" << std::endl;
+        if(myNumb < secretNumb) std::cout << "To low, try again" << std::endl;
 
-    }while(myNumb < 10);
+    }while(myNumb != secretNumb);
 
-    if(myNumb > 10){
-        std::cout << "You guessed too high" << std::endl;
-    }else{
-        std::cout << "You Win!, the number is 10 " << std::endl;
-    }
+    
+    std::cout << "You Win!, the number is: "<< secretNumb << std::endl;
 
     return 0;
 }
