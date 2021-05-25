@@ -48,17 +48,8 @@ float Father::GetWeight(){
     return this->weight;
 }
 
-void Father::SetChild(int noOfSons, int noOfDaughter){
-    this->noOfSons = noOfSons;
-    this->noOfDaughter = noOfDaughter;
-}
-
-int Father::GetDaughter(){
-    return this->noOfDaughter;
-}
-
-int Father::GetSons(){
-    return this->noOfSons;
+void Father::SetChild(std::string childname){
+    this->childNames.push_back(childname);
 }
 
 void Father::SetIDNumber(int number){
@@ -67,4 +58,8 @@ void Father::SetIDNumber(int number){
 
 int Father::GetIDNumber(){
     return this->idnumber;
+}
+
+std::vector<std::string> Father::GetFamily(){
+    return this->childNames;
 }

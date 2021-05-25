@@ -5,8 +5,8 @@ DEPS = Father.h
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $<
 
-all: main.o Father.o
-	$(CC) -o main main.o Father.o
+all: main.o Father.o Child.o
+	$(CC) -o main main.o Father.o Child.o
 
 clean:
 	rm *.o

@@ -1,6 +1,8 @@
 #ifndef FATHER_H
 #define FATHER_H
 
+#include<vector>
+#include<string>
 /*
 header files are use to define prototype of our class,
 we can forward declare our function or anything here.,
@@ -19,8 +21,6 @@ class Father {
     protected:
         float height;
         float weight;
-        int noOfSons;
-        int noOfDaughter;
     
     public:
         static int clubMembers; //father's club members, every father know about it.
@@ -28,6 +28,7 @@ class Father {
         Father(float height,float weight); //set height and weight;
 
         virtual ~Father(); //deconstructor;
+        virtual std::vector<std::string> GetFamily(); //virtual, we can overide it in child
 
         //getters and setters
         void SetHeight(float height);
@@ -36,9 +37,8 @@ class Father {
         void SetWeight(float weight);
         float GetWeight();
 
-        void SetChild(int noOfSons, int noOfDaughter);
-        int GetSons();
-        int GetDaughter();
+        void SetChild(std::string childname);
+        std::vector<char> GetChild();
 
         void SetIDNumber(int idnumber);
         int GetIDNumber();
@@ -49,6 +49,7 @@ class Father {
 
     private:
         int idnumber;
+        std::vector<std::string>childNames;
 
 }; //don't forget this semicolon
 
