@@ -1,6 +1,6 @@
 
 CC=g++
-DEPS = Father.h
+DEPS=Father.h Child.h
 
 %.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $<
