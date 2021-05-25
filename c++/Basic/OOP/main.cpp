@@ -3,6 +3,9 @@
 #include "Child.h"
 //example Object oriented programming.
 
+void PrintFamily(Father &father);
+
+
 int main (int argc, char ** argv){
     Father bob(170.0,75.3);
     Father john(176.3,80.5);
@@ -21,12 +24,10 @@ int main (int argc, char ** argv){
     bob.SetChild(childName);
     bob.SetChild("Anela");
 
-    std::vector<std::string> bobChilds = bob.GetFamily();
+    // std::vector<std::string> bobChilds = bob.GetFamily();
 
     std::cout << "Bob's Child:\n" ;
-    for(int i=0; i < bobChilds.size(); ++i){
-        std::cout << bobChilds[i] << std::endl;
-    }
+    PrintFamily(bob);
     std::cout << "\n=======================\n";
     james.SetHeight(172.8); //we use function we inherit from parent
     james.SetWeight(75);
@@ -36,10 +37,14 @@ int main (int argc, char ** argv){
     std::cout << "weight: " << james.GetWeight() << std::endl;
 
     std::cout << "James's Parent:\n" ;
-    for(int i=0; i < james.GetFamily().size(); ++i){
-        std::cout << james.GetFamily()[i] << std::endl;
-    }
-
+    PrintFamily(james);
 
     return 0;
+}
+
+//polymorph example, we can use same funct with child and father.
+void PrintFamily(Father &father){
+    for(int i=0; i < father.GetFamily().size(); ++i){
+        std::cout << father.GetFamily()[i] << std::endl;
+    }
 }
