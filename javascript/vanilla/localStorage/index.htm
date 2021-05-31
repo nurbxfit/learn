@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <label>Pick an Egg:</label>
+      <select name="tray" id="tray">
+        <option value="1">Tray 1</option>
+        <option value="2">Tray 2</option>
+        <option value="3">Tray 3</option>
+        <option value="4">Tray 4</option>
+      </select>
+    </div>
+
+    <ul class="tray__info">
+      <li>
+        <div class="tray__slots"></div>
+        <small>Available</small>
+      </li>
+      <li>
+        <div class="tray__slots selected"></div>
+        <small>Selected</small>
+      </li>
+      <li>
+        <div class="tray__slots empty"></div>
+        <small>Empty</small>
+      </li>
+    </ul>
+
+    <p class="text">
+      You have selected <span id="count">0</span> eggs, from tray
+      <span id="trayname"></span>
+    </p>
+
+    <div class="tray__container">
+      <div class="row">
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+      </div>
+      <div class="row">
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+      </div>
+      <div class="row">
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+      </div>
+      <div class="row">
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+      </div>
+      <div class="row">
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+        <div class="tray__slots"></div>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
