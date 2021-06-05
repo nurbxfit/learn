@@ -51,6 +51,33 @@
 - we can view these HTMLs text in the browser by `right clicking` on a webpage and select `view page source` or typing `ctrl + u` .
 - these source code are publicly available and was sent by back end server to the front-end client (browser) to render.
 
+## Same Origin Policy
+
+- same origin policy prevent, other website, or out website to load document or script from another origin.
+- it help isolate malicious document on other host/origin, from running JS file in our website.
+
+### origin
+
+- two or many URLs have the same origin if this criterias are present:
+
+  - same protocol
+  - same host.
+  - same port
+
+- examlpe a website `http://forum.dragonforce.my/`
+- a url considered as same origin are
+  - `http://forum.dragonforce.my/index.html`
+  - `http://forum.dragonforce.my/anything.html`
+  - `http://forum.dragonforce.my/archive/index.php`
+  - the different between these urls and the main url is just the path different.
+  - the protocol, host and port are the same.
+- example of not same origin are
+  - `ftp://forum.dragonforce.my/dir/`
+  - `https://forum.dragonfoce.my/index.html`
+  - `http://forum.dragonfoce.my:4444/index.html`
+  - `https://news.dragonfoce.my/index.html`
+  - these example are wrong because of the different in protocols, port and hostname
+
 ## IMPORTAN SECURITY NOTE.
 
 - for a web developer, it is important to make sure that there is no sensitive information in front-end code because those information are publicly available to the client to view.

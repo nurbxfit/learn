@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Example XSS</title>
+  </head>
+  <body>
+    <!--String Interpolation-->
+    <h1 class="title">Example XSS: 0x2</h1>
+    <div class="rules">
+      <label class="rules__label">Rule:</label>
+      <ul>
+        <li class="rules__item">
+          Try to create <b>alert("0xfff")</b> on the browser
+        </li>
+        <li class="rules__item">No form for you. Use the link to execute</li>
+        <li class="rules__item">
+          <a href="https://javascript.info/eval" target="_blank"
+            >Here some tips</a
+          >
+        </li>
+      </ul>
+
+      <button class="btn" onclick="showHint()">hint</button>
+    </div>
+    <p>Hello <span id="vuln"></span></p>
+    <script>
+      function showHint() {
+        alert("Hint is: source and break the eval string ");
+      }
+      const vuln = document.getElementById("vuln");
+      var name = new URL(location).searchParams.get("name") || "World";
+      //   name = name.replace(/[<>]/g, ""); //replace < and > with blank space
+      console.log("name:", name);
+      eval(`name = " I am ${name}"`); //name = "I am "+ evilcode +""
+      console.log("name:", name);
+      vuln.innerHTML = name;
+    </script>
+  </body>
+</html>

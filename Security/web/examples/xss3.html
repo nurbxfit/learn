@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Example XSS</title>
+  </head>
+  <body>
+    <!--String Interpolation-->
+    <h1 class="title">Example XSS: 0x3</h1>
+    <div class="rules">
+      <label class="rules__label">Rule:</label>
+      <ul>
+        <li class="rules__item">
+          Try to create <b>alert("0xfff")</b> on the browser
+        </li>
+        <li class="rules__item">Here is a form for you</li>
+      </ul>
+
+      <form>
+        <input type="text" placeholder="paste url" value="" />
+        <button class="btn submit" onclick="changE(event)">play video</button>
+      </form>
+
+      <button class="btn" onclick="showHint()">hint</button>
+    </div>
+    <!-- <p>Hello <span id="vuln"></span></p> -->
+    <div id="target"></div>
+    <script>
+      function changE(e) {
+        e.preventDefault();
+        var txt = input.value.replace(/[<>]/g, "");
+        console.log(txt);
+        const target = document.getElementById("target");
+        target.innerHTML = `
+        <video width="420" height="420" controls>
+            <source src="${txt}">    
+        </video>
+        `;
+      }
+      function showHint() {
+        alert("Hint is: focus on the input ");
+      }
+      const vuln = document.getElementById("vuln");
+      //   var name = new URL(location).searchParams.get("name") || "World";
+      const input = document.querySelector('input[type="text"]');
+    </script>
+  </body>
+</html>
