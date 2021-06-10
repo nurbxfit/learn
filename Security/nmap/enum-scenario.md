@@ -244,7 +244,7 @@ MAC Address: 08:00:27:10:B8:D0 (Oracle VirtualBox virtual NIC)
 - here we get various CVE for Openssh, we can copy it and perfom a google search to find out more about the vulnerabilities.
 - we can also make use of metasploit to attack known vulnerabilities.
 
-## (stealth) Finding zombies machine for proxying.
+# (stealth) Finding zombies machine for proxying.
 
 - in nmap, we can proxy our ip address for scanning, by using zombies host.
 - first we need to find the zombies using the script `ipidseq`
