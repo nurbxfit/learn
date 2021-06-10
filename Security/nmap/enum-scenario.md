@@ -157,7 +157,8 @@ MAC Address: 08:00:27:10:B8:D0 (Oracle VirtualBox virtual NIC)
 
 ```
 
-- at the end, it's all depend on the firewall configuration
+- at the end, it's all depend on the firewall rules configuration
+- we can perfom other type of scan such as TCP SYN `-sS` or TCP NULL`-sN` to check for different result.
 
 # check for OS.
 
