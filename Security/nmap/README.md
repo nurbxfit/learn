@@ -113,7 +113,9 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ## Searching for NSE script.
 
-few ways to search for a script: 0. simple open file manager and direct to `/usr/share/nmap/scripts` and you will see lot of file with extension `.nse`
+few ways to search for a script.
+
+0.  simple open file manager and direct to `/usr/share/nmap/scripts` and you will see lot of file with extension `.nse`
 
 - you can use `ls` and basic wildcard to search for script.
 
