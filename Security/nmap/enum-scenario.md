@@ -141,6 +141,8 @@ MAC Address: 08:00:27:10:B8:D0 (Oracle VirtualBox virtual NIC)
 
 ```
 
+- we can see from the output, our TCP connect, receive a TCP syn-ack from the target host.
+
 - for a firewalled result of the same machine we might see something like this
 
 ```
