@@ -99,6 +99,7 @@ $sudo rm -rf /var/lib/containerd
 - the docker-server first check for local cache for that particular images.
 - if it don't find the images, docker will attempt to `fetch` it from `docker-hub`.
 - after fetched, it will stored it in the cache so that later we don't have to download it again from the hub.
+- to download an image manually via docker-cli, we can use `docker pull <image>`
 - whenever we run docker command in the terminal, we are most likely using `docker-cli` to communicate with `docker-server`.
 
 # Docker CLI Basic
@@ -219,7 +220,8 @@ $sudo docker rm ` sudo docker ps -aq`
 $sudo docker images
 ```
 - this will list the images.
-- to remove images we use `docker system prune`
+- to remove a image we use `docker rmi <image>`
+- to remove all images we use `docker system prune`
 - this will remove image from local cache,
 - next time we run we will download it again from docker-hub.
 - we can use this to clear up spaces. before we uninstall docker.
