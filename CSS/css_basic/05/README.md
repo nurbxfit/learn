@@ -5,11 +5,9 @@
 - using `top`,`bottom`,`right`, `left`. 
 - and using `position` these property to specify the reference.
     - `fixed`
-    - `z-index`
     - `relative`
     - `absolute`
     - `sticky`.
-    - `stacking`
 
 - we use the `position` property in the element that we are going to move it position.
 

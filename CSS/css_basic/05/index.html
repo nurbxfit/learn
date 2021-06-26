@@ -62,11 +62,42 @@
             </div>
             <div class="window-2">
                 I am window 2
+                <button id="btnAds">click me</button>
             </div>
             <div class="window-3">
                 I am window 3
             </div>
+
+            
+        </div>
+
+        <div class="popup hide">
+            I am a pop up ads
+            <a id="close" class="exit">X</a>
         </div>
     </main>
+
+    <script>
+        const popup = document.querySelector(".popup");
+        const btn = document.querySelector("#btnAds");
+        const closepop = document.getElementById('close');
+        let count = 0;
+
+        closepop.addEventListener('click',(e)=>{
+            e.preventDefault()
+            count++;
+            alert(`Trying to close: ${count} ?`);
+            if (count == 3){
+                popup.style.display = "none"
+                count = 0;
+            }
+        })
+
+        btn.addEventListener("click",(event)=>{
+            alert("3rd times the charm ");
+            popup.style.display = "block"
+            
+        })
+    </script>
 </body>
 </html>

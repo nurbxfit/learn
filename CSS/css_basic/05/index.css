@@ -159,6 +159,12 @@ body{
     /* z-index: 1; */
 }
 
+.window-2 > button {
+    position: absolute;
+    right: 40%;
+    top: 50%;
+}
+
 .child-4 .window-3{
     background: palevioletred;
     width: 150px;
@@ -171,6 +177,33 @@ body{
     /* z-index: 2; */
 }
 
+
+.parent .popup{
+    background: white;
+    color: teal;
+
+    height: 250px;
+    width: 350px;
+    border: 2px solid grey;
+
+    position: fixed;
+    z-index: 6;
+    top: 40%;
+    left: 40%;
+
+    display: none;
+    
+}
+
+.popup .exit{
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    text-decoration: none;
+    color: tomato;
+    
+    cursor: pointer;
+}
 /* fix navigation bar */
 
 /* .parent .child-1{
