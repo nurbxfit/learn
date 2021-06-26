@@ -1,0 +1,185 @@
+*{
+    box-sizing: border-box;
+}
+
+html{
+    background: #b3b3b3;
+    padding: 30px 15px;
+    border: 5px solid white;
+    margin:15px;
+    height: 2000px;
+}
+body{
+    background: tomato;
+    padding: 20px;
+    border: 5px solid black;
+    margin: 0;
+}
+
+.main-header{
+    width: 100%;
+    background:cornflowerblue;
+    padding: 8px 16px;
+
+    /* making our navbar fix to the top */
+    position: fixed;
+    top:0;
+    left: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    z-index: 1;
+}
+
+/* the brand parent*/
+.main-header > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-header__brand{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.main-nav{
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.main-nav__links{
+    margin:0;
+    padding: 0;
+    list-style: none;
+}
+
+.main-nav__link{
+    display: inline-block;
+    margin: 5px 16px;
+}
+
+
+/* background image */
+.background{
+    background: url("https://cdn.wallpapersafari.com/32/96/vfOVhC.jpg");
+    width: 100%;
+    height: 100%;
+
+
+    position: fixed;
+    top:0;
+    left: 0;
+    margin: 0;
+    z-index: -100; /*make it below all element*/
+}
+
+.parent {
+    background: white;
+    padding: 20px;
+    border: 5px solid black;
+    margin: 0;
+}
+
+.parent div {
+    background: rgb(105,105,109);
+    color: white;
+    padding: 10px;
+    border: 5px solid rgb(56, 11, 99);
+    margin: 10px;
+    
+}
+
+.banner{
+    position: relative;
+    height: 350px;
+}
+.banner .banner__image{
+    border: none;
+    background: url("https://static.vecteezy.com/system/resources/previews/002/099/704/original/mountain-beautiful-landscape-background-design-illustration-free-vector.jpg");
+    height: 100%;
+    width: 100%;
+    position:absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    z-index: 0;
+}
+.banner .banner__title{
+    border: none;
+    background: none;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    margin: 0;
+
+}
+
+.child-2{
+    overflow: hidden;
+}
+
+.child-2 .rel{
+    position: relative;
+    top: 12px;
+    left: 120px;
+}
+
+.child-3 .sticky{
+    background: orange;
+    color: black;
+    position: sticky;
+    top:100px;
+}
+
+/* child-4 stacking */
+.child-4{
+    position: relative;
+}
+.child-4 .window-1{
+    background: turquoise;
+    width: 250px;
+    height: 270px;
+
+    position:relative;
+    left: 20px;
+}
+
+.child-4 .window-2{
+    background: teal;
+    width: 350px;
+    height: 200px;
+    
+    
+    position: absolute;
+    top:80px;
+    left: 50px;
+    /* z-index: 1; */
+}
+
+.child-4 .window-3{
+    background: palevioletred;
+    width: 150px;
+    height: 100px;
+    
+
+    position: absolute;
+    top: 150px;
+    left: 320px;
+    /* z-index: 2; */
+}
+
+/* fix navigation bar */
+
+/* .parent .child-1{
+    
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+} */
