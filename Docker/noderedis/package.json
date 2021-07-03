@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "express":"*",
+        "redis":"2.8.0",
+        "ejs": "*"
+    },
+    "scripts": {
+        "start": "node index.js"
+    }
+}
