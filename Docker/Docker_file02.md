@@ -65,6 +65,26 @@ CMD ["npm","start"]
 WORKDIR /usr/app 
 COPY ./ /usr/app
 ```
+- if we didn't specify the workdir for our files.
+- the COPY command by default will copy our project files into our root directory if we use 
+```Dockerfile
+COPY ./ ./
+```
+- if we specify a `workdir`.
+- if we use `./` as our container path for our destination.
+- it will copy into the workdir.
+```Dockerfile
+WORKDIR /usr/app
+COPY ./ ./
+```
+- this is same as `COPY ./ /usr/app`.
+- if we didn't specify our workdir but we copy into `/usr/app`.
+```Dockerfile
+COPY ./ /usr/app
+```
+- when we `RUN npm install`.
+- our `RUN` command will run at the root directory and it still can't find the package.json files that was copied into `/usr/app`.
+
 - our full Dockerfile will look like this.
 ```Dockerfile
 #Dockerfile
