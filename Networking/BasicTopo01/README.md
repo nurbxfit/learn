@@ -12,8 +12,8 @@
 
 ## Configuring the CISCO router.
 
-- boot up our cisco swith.
-- use `R1# sh ip int brief` to show brief info about our network interface.
+- boot up our cisco router.
+- use `R1# sh ip interface brief` to show brief info about our network interface.
   - we will see something like this.
   ```
   Interface             IP-Address   OK? Method Status           Protocol
