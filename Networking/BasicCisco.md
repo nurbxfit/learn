@@ -120,8 +120,8 @@ Router(config)# no shutdown
 - we also going to learn to set up password for our router to prevent unauthorized access.
 - we then will enable remote SSH login and changing Banner.
 - we then going to configure default routing protocol for our router.
-- we will not doing any configuration with the switch.
-- after finish configure our routers, we will try ping from PC1 to PC2.
+- we will configure VLAN on the switch.
+- after finish configure our routers and switches, we will try ping from PC1 to PC2.
 
 # Configure.
 - for most part when configuring our routers. the command and flow are identical and repeatable with slights changes on the `IP address`.
@@ -195,8 +195,152 @@ R1# show running-config
 - physically we usually access our router via serial console.
 
 ### configure telnet.
-
+```
+R1(config)# line vty 0 4 
+R1(config-line)# password cisco2020
+R1(config-line)# login
+```
+- as we can see here, the flow is almost the same as we setup password for console access. the different is we use `vty` instead of `console`.
 ### configure ssh.
-
+- SSH is a more secure alternative to telnet.
+- here first we need to set up our router to have a domain name, username and password.
+- the password we use is encrypted with RSA algorithm.
+```
+R1(config)# ip domain name cisco.com
+R1(config)# username gintama password cisco2020
+R1(config)# crypto key generate rsa
+```
+- you will be prompted asking on how many bits in the modulus, choose `1024`. 
+- then continue enabling SSH.
+```
+R1(config)# ip ssh version 2
+R1(config)# line vty 0 4 
+R1(config-line)# transport input ssh
+```
+- noticed how this part of configuration is the almost same as setting up telnet?
+- the different is that we use ssh as our transport input. so telnet will no longer be available (it will overide telnet transport input).
+- if you once again want to enable telnet, you can change the transport input to telnet.
+```
+R1(config)# line vty 0 4
+R1(config-line)# transport input telnet
+```
 
 ### global service password encryption.
+- this will encrypt all stored password including `enable` and `console` password.
+- but the encryption algorithm used in this config is not that secure.
+```
+R1(config)# service password-encryption
+
+```
+
+### Set password length
+- to set minimum password length of 10
+```
+R1(config)# security password min-length 10
+```
+
+### enable timeout upon SSH/telnet login.
+```
+R1(config)# line vty 0 4
+R1(config)# exec-timeout 5 0
+```
+
+### Create a Banners
+- this banners will warns anyone accessing the device remotely.
+- we will print a meeesage saying "Unauthorized Access Prohibited!"
+```
+R1(config) banner motd #Unauthorized Access Prohibited!#
+```
+
+
+### Save Our Running Configuration as startup-config
+- all the configuration we had set is currently stored in the RAM.
+- which is not permenant.
+- if we restart our router, it will be lost, and we need to re-configure it again.
+- to make it permenant, we can save it as `startup-config` that will be load whenever the router start.
+```
+R1# copy running-config startup-config
+```
+
+
+## Assigning IP address to each Router Interfaces.
+- next things to do is assigning ip address to our router.
+- setps we need to do are:
+    1. from privilage mode go into global config mode.
+    2. go into interface config submode.
+    3. assign ip address and netmask using `ip` command.
+    4. bring up our interface using `no shutdown` command.
+
+- in this example, we set ip address to interface gigabit 1 of router 1.
+- just repeat this step in each interface and each routers.
+- make sure to change the ip address and interface name.
+```
+R1> enable
+R1# configure terminal
+R1(config)# interface g1
+R1(config-if)# ip address 12.1.1.1 255.255.255.0 
+R1(config-if)# no shutdown
+R1(config)# exit 
+```
+- repeate step 3 to 6 with interface g2 and g3, to assign ip address and network mask to it.
+- then we can check to verify that our interface have the correct address.
+- we can use `show ip interface brief` command.
+```
+R1# show ip interface brief
+```
+![show ip interface brief](./images/sh_ip_brief.png)
+- now we successfully configure ip address for each interface of our router.
+- next part we will set routing protocol, for our router to foward packets to another router.
+
+
+## OSPF Routing.
+- here we will learn how to set up OSPF routing.
+- OSPF routing is part of dynamic routing.
+- it is dynamic because we don't need to manully set up our router to know all the network in the routering mesh.
+- what our router did, was sharing knowledge of its connected network topology with its neighbour. the neighbour will do the same and exchange their with our router.
+- thus forming 3 table of routes.
+    - neigbour table
+    - topology table
+    - network sturcture table.
+
+- to set up OSPF, we need o establish a neighbour relationship with other router.
+- our router will sent a `Hello` packet to `multicast` ip address of its network to find neigbouring router.
+- the neigbour also need to send `Hello` message to our router to establish relationship. before they can exchange routing information.
+
+### enabling OSPF in our routers
+- things we need for this configuration are
+    - network address
+    - wildcard mask 
+    - area number
+- network address, is all connected network address to our router.
+    - in case of R1, it will be
+    ```
+    12.1.1.0
+    13.1.1.0
+    172.16.10.0
+    ```
+    - this is the network address, not the ip address of our interface.
+
+- [wildcard address](https://www.ciscopress.com/articles/article.asp?p=3089353&seqNum=5) refer here.
+![wildcard mask](./images/wildcard_mask.png)
+    - in case of /24 network, the address should be `0.0.0.255`
+
+- for the are number, we use are 0.
+- example configuration of Router 1
+```
+R1(config)# router ospf 1
+R1(config-router)# network 12.1.1.0 0.0.0.255 area 0
+R1(config-router)# network 13.1.1.0 0.0.0.255 area 0
+R1(config-router)# network 172.16.10.0 0.0.0.255 area 0
+```
+- for router 2 it will be like this
+```
+R2(config)# router ospf 1
+R2(config-router)# network 12.1.1.0 0.0.0.255 area 0
+R2(config-router)# network 24.1.1.0 0.0.0.255 area 0
+```
+- repeate this process with other router.
+- to check for ospf neigbour discovery is success, we use 
+```
+R1# show ip ospf neighbor
+```
