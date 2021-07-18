@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+html{
+ color: white;
+ font-family: 'Roboto', sans-serif;
+ height: 2000px;
+ margin: 0;
+ padding: 0;
+}
+
+.main-header{
+    position: relative;
+    top: 30vh;
+    text-align: center;
+    z-index: 5;
+
+}
+
+.main-header > div {
+    display: inline-block;
+    vertical-align: middle;
+    background: teal;
+    padding: 13px 20px;
+}
+
+.main-header__brand{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.main-nav{
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.main-nav__links{
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    background: #17252a;
+    
+    
+
+}
+
+.main-nav__link{
+    display: inline-block;
+    /* margin: 0 0px; */
+    font-size: 20px;
+    /* background: #254E58; */
+    padding: 10px 0;
+    width: 100px;
+    text-align: center;
+}
+
+section{
+    position: relative;
+    left: 0;
+    top: 100vh;
+    width: 100%;
+    /* background: #112D32; */
+    background: white;
+    color: black;
+    min-height: 100vh;
+}
+
+#welcome{
+    padding-top: 80px;
+    padding-left:  10vw;
+}
+
+.section-title{
+    padding: 20px 0;
+    font-size: 40px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.welcome__title{
+    position: relative;
+    top: 20vh;
+    left: 70px;
+    font-size: 60px;
+}
+.welcome__text{
+    margin: 0 20px;
+    padding: 20px;
+    text-align: center;
+    width: 350px;
+    display: inline-block;
+    vertical-align: center;
+}
+.welcome__image{
+    background: url("./images/coffeecup.jpg");
+    background-repeat: no-repeat;
+    background-size: cover; /*width height */
+    background-position-y: 20px;
+    /* background-origin: border-box;
+    background-clip: border-box; */
+    
+    width: 350px;
+    height: 380px;
+    display: inline-block;
+
+    
+}
+
+
+.welcome__image-extras{
+    width: 350px;
+    height: 380px;
+
+    display: inline-block;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.container{
+    background: white;
+    color: black;
+    padding: 10px 16px;
+    margin: 15px 0;
+    height: 50vh;
+}
+
+#coffee{
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    object-fit: cover;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: -5;
+
+    /* height: auto;
+    width: 100%; */
+}
