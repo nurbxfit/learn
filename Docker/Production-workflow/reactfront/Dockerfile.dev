@@ -1,0 +1,19 @@
+FROM alpine
+
+# install node
+RUN apk update && apk upgrade
+RUN apk add --update nodejs
+RUN apk add --update npm
+RUN apk add --update git
+
+# set working directory
+WORKDIR '/usr/app'
+# copy package.json and install node dependencies
+COPY package.json ./
+RUN npm install
+
+# copy the rest of files
+COPY ./ ./
+
+# running npm start
+CMD ["npm","start"]

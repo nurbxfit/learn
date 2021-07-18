@@ -168,3 +168,35 @@ $sudo docker-compose --build -d
 - we can list running containers using `docker ps`
 - to stop all of our containers, we can use `docker-compose down`.
 - we run `docker-compose down` in our docker project folder that contains our `docker-compose.yml` file.
+
+# Auto Restart Container
+- if let say there is an error in our code, 
+and our service stop itself and return exit code.
+- we can add a restart policies in our `docker-compose.yml` file,
+to tells docker to auto restart the container.
+- example restart policies:
+    - `"no"`: never restart container (don't forget double quotes).
+    - `always`: always attempt to restart, no matters the reason.
+    - `on-failure`: restart if stop due to failure or error.
+    - `unless-stopped` : always restart unless, the dev forcibly stop it.
+
+- we use it by adding `restart` in our yml file.
+```yml
+# docker-compose.yml
+version: '3'
+
+services: 
+    redis-server:
+        image: 'redis'
+
+    web-app:
+        restart: always #here we add restart policies.
+        build: .
+        ports:
+            - "5000:5000"
+```
+
+# Checking the status of our running container.
+- when we start our container using `docker-compose up -d`
+- we can check the status of our container using `docker-compose ps`
+- note that we must run that command in the directory containing the `docker-compose.yml` file.
