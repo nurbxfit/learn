@@ -17,7 +17,7 @@
 - this typical workflow doen't necessarily use docker, there are various other software and ways to build the enviroment.
 - but docker is a good tool in helping setting things up.
 - where does docker come to use ?
-    - we use docker to create two container.
+    - we use docker to create three containers.
     - a development container
     - a test container
     - a production container.
@@ -27,16 +27,7 @@
     - a production container will run using `npm run build`, and then serve it using nginx or httpd.
 
 
-# Excluding node_module 
-- if we use COPY in our project containing `node_modules`
-```Dockerfile
-COPY ./ ./
-```
-- it will also copy together the node_modules into the image.
-- this ended up increase the size of our image.
-- we can avoid this by either simply delete `node_modules` in our project folder.
-- or we can use `.dockerignore` to exclude it.
-- we add `.dockerignore` inside our project directory together with our Dockerfile and we simply write `node_modules` inside it to exclude.
+
 
 
 # Dockerfile.dev
@@ -70,6 +61,18 @@ CMD ["npm","start"]
 ```bash
 $sudo docker images
 ```
+
+# Excluding node_module 
+- if we use COPY in our project containing `node_modules`
+```Dockerfile
+COPY ./ ./
+```
+- it will also copy together the node_modules into the image.
+- this ended up increase the size of our image.
+- we can avoid this by either simply delete `node_modules` in our project folder.
+- or we can use `.dockerignore` to exclude it.
+- we add `.dockerignore` inside our project directory together with our Dockerfile and we simply write `node_modules` inside it to exclude.
+
 # Volume.
 - when we run our container, and making change to our project file,
  the change doesn't effect our running container.
@@ -106,7 +109,7 @@ docker run -it -p 3000:3000 --rm -v /usr/app/node_modules -v $(pwd):/usr/app rea
 ```yml
 version: '3'
 services: 
-    reactexample:
+    devserver:
         build: 
             context: .
             dockerfile: Dockerfile.dev
@@ -124,7 +127,7 @@ services:
 ```yml
 version: '3'
 services: 
-    reactexample:
+    devserver:
         build: 
             context: .
             dockerfile: Dockerfile.dev
@@ -133,4 +136,128 @@ services:
         volumes:
             # - /usr/app/node_modules
             - .:/usr/app
+``` 
+
+## Adding `npm test` to our docker-compose.
+- previously we mentioned that we will create 3 containers, developments, test  and production.
+- we already created our development image using `Dockerfile.dev`, and added it as a services to our docker compose file.
+- for the `test` container, we can either create a new custom `Dockerfile.test` or we can make use of the existing `Dockerfile.dev` images and just overide the startup command to run `npm run test` instead.
+- in this example, we are going to simply use the existing `Dockerfile.dev` and use it to build new `test` image and overide the startup.
+- we use the existing `docker-compose.yml` file and add a new service name `test`.
+- using the same argument as our `devserver` but added a command options to overide the default startup command.
+```yml
+version: '3'
+services: 
+    devserver:
+        build: 
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            # - /usr/app/node_modules
+            - .:/usr/app
+
+    testserver:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - .:/usr/app
+        command: ["npm","run","test","--","--coverage"]
 ```
+- here we do not need the ports mapping, because we do not need it when we run `npm run test`. 
+- we save this and run `docker-compose up` and it will create 2 containers if we check using `docker ps`. 
+- the drawback for this approch is, if our test scripts require I/O interaction, there is no way for us to give I/O feeds to our container.
+- other drawback is we can only see if our test script success via the console we use to run `docker-compose up`.
+- it sometimes get jumble up with other console output from the devserver.
+- we will see something like this.
+```
+testserver_1  | PASS src/App.test.js
+testserver_1  |   ✓ renders learn react link (43 ms)
+testserver_1  | 
+testserver_1  | --------------------|---------|----------|---------|---------|-------------------
+testserver_1  | File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+testserver_1  | --------------------|---------|----------|---------|---------|-------------------
+testserver_1  | All files           |    9.09 |        0 |   33.33 |    9.09 |                   
+testserver_1  |  App.js             |     100 |      100 |     100 |     100 |                   
+testserver_1  |  index.js           |       0 |      100 |     100 |       0 | 7-17              
+testserver_1  |  reportWebVitals.js |       0 |        0 |       0 |       0 | 1-8               
+testserver_1  | --------------------|---------|----------|---------|---------|-------------------
+testserver_1  | Test Suites: 1 passed, 1 total
+testserver_1  | Tests:       1 passed, 1 total
+testserver_1  | Snapshots:   0 total
+testserver_1  | Time:        3.262 s
+testserver_1  | Ran all test suites.
+testserver_1  | 
+
+```
+- but this is as far enough for our simple project.
+- for the developer working on this project on their pc, they will use this docker-compose file to start a developer server and test containers on their local machine.
+- then when there is no problem with local testing, they will push their code to the github on development branchs (branch other than master or deployment).
+- they will create a pull request to merge their branch with master.
+- then maybe a senior or manager that are reponsible to verify the code will merge the repo into master.
+- then, we will make use of [Travis CI](https://travis-ci.com/), to watch our repositories.
+- whenever a new code get merge into the master, travis will be alerted, and then travis will run again the test container online.
+- if there is no error, travis will then proceed to deploy it to production server.
+
+
+# Travis CI for testing
+- create a new file in our project folder called `.travis.yml`
+- we will make use of travis CI to watch over our github repositories for a commit made by developer.
+- travis then will run our test container and if the test is success, we will push it to production.
+```yml
+sudo: required
+services:
+    - docker
+before_install:
+    - docker build -t testserver -f Dockerfile.dev .
+
+script:
+    - docker run testserver  npm run test -- --coverage
+```
+- what travis do, basically, it build an image using Dockerfile.dev 
+- then it run the image and overide the startup script to run `npm run test`.
+- travis will then wait until the test script end, and will let us know if it is success.
+
+- we are not finished yet editing our travis CI file here.
+- we will later continue editing our `.travis.yml` to add deploy options, on how to deploy our production server container.
+
+
+# Production server container. 
+- for our production container, we need our container to run `npm run build`, 
+- this will build our react files into a single index.html file with bundles of js files.
+- we then take these files, and serves it using http server such as apache or nginx.
+- we will create a new `Dockerfile` for our production server.
+- we will make use of two base images, our alpine image and nginx image.
+- we will implement a multi stage builds to first build our react app, and then take the result build folder into our nginx server.
+
+```Dockerfile
+# This is the first (builder) stage wehere we build our project
+FROM alpine as builder
+
+# install node
+RUN apk update && apk upgrade
+RUN apk add --update nodejs
+RUN apk add --update npm
+RUN apk add --update git
+
+# set working directory
+WORKDIR '/usr/app'
+# copy package.json and install node dependencies
+COPY package.json ./
+RUN npm install
+
+# copy the rest of files
+COPY ./ ./
+
+# build our react project
+RUN npm run build
+
+# Second stage start here.
+FROM nginx
+COPY --from=builder /usr/app/build /usr/share/nginx/html
+```
+- then we are ready to use this Dockerfile to deploy in our production server.
+- we will make use of `heroku` as our production server to deploy our docker container.
+- you can use other service such as `AWS elasticbeanstalk` to deploy our docker container.
