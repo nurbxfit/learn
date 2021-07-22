@@ -256,11 +256,38 @@ RUN npm run build
 
 # Second stage start here.
 FROM nginx
+EXPOSE 80
 COPY --from=builder /usr/app/build /usr/share/nginx/html
 ```
 - then we are ready to use this Dockerfile to deploy in our production server.
-- we will make use of `heroku` as our production server to deploy our docker container.
-- you can use other service such as `AWS elasticbeanstalk` to deploy our docker container.
+- you can use services such as, `Google Cloud Engine` or `AWS elasticbeanstalk` to deploy our docker container.
 
 
 # Travis CI for Deployment.
+- for deployment we will edit our `.travis.yml` file and add the `deploy` options.
+- for elasticbeanstalk our config file will look like this.
+```yml
+sudo: required
+services:
+    - docker
+before_install:
+    - docker build -t testserver -f Dockerfile.dev .
+
+script:
+    - docker run testserver  npm run test -- --coverage
+
+deploy:
+    provider: elasticbeanstalk
+    region: "country-region-number"
+    app: "our app name in aws"
+    env: "Our app env in aws"
+    bucket_name: "ourawsbucketurl-country-region-number-id"
+    bucker_path: "docker"
+    on:
+        branch: master
+    
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: "$AWS_SECRET_KEY"
+
+```
