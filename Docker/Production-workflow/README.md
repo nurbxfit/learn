@@ -68,7 +68,7 @@ $sudo docker images
 COPY ./ ./
 ```
 - it will also copy together the node_modules into the image.
-- this ended up increase the size of our image.
+- this will end up increasing the size of our image.
 - we can avoid this by either simply delete `node_modules` in our project folder.
 - or we can use `.dockerignore` to exclude it.
 - we add `.dockerignore` inside our project directory together with our Dockerfile and we simply write `node_modules` inside it to exclude.
@@ -79,7 +79,7 @@ COPY ./ ./
 - we need to rebuild our container and re-run it to view the changes.
 - this can be quite tedious, and to overcome this, we can use docker features called `volume`.
 - `volume` create a link or reference in our container that point to the folder or files inside our local machine.
-- we can use volume, by using the `-v` flag and specify the <localpath>:<containerpath>, when running our container using `docker run`.
+- we can use volume, by using the `-v` flag and specify the `<localpath>:<containerpath>`, when running our container using `docker run`.
 - example command will be
 ```bash
 docker run -it -p 3000:3000 --rm -v $(pwd):/usr/app reactexample
@@ -246,7 +246,7 @@ RUN apk add --update git
 WORKDIR '/usr/app'
 # copy package.json and install node dependencies
 COPY package.json ./
-RUN npm install
+RUN npm install 
 
 # copy the rest of files
 COPY ./ ./
@@ -261,3 +261,6 @@ COPY --from=builder /usr/app/build /usr/share/nginx/html
 - then we are ready to use this Dockerfile to deploy in our production server.
 - we will make use of `heroku` as our production server to deploy our docker container.
 - you can use other service such as `AWS elasticbeanstalk` to deploy our docker container.
+
+
+# Travis CI for Deployment.
