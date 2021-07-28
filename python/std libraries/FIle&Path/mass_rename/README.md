@@ -16,3 +16,5 @@ python changeName.py -p "/home/jun/Documents" -k "[by:jeff]" -r "[by:Jun]" -t fi
 ```
 Acapelalela - [by:Jun].mp3
 ```
+
+- for now, regex not yet add to the script.
